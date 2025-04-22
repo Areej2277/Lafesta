@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Home - Lafesta {% endblock %}
+
+{% block content %}
+
+<div class="text-center my-5">
+    <h1 class="display-4">Welcome to Lafesta!</h1>
+    <p class="lead">Where elegance meets convenience — Rent your dream dress now.</p>
+</div>
+
+<!-- Section: New Dresses -->
+<section class="container my-5">
+    <h3 class="mb-4">New Dresses</h3>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+
+        {% comment "You can loop over real data later" %}
+        {% for dress in new_dresses %}
+        {% endcomment %}
+
+        {% for i in "123" %}
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                
+                <div class="card-body">
+                    <h5 class="card-title">Elegant Black Dress</h5>
+                    <p class="card-text">Available now for your next big night.</p>
+                    <div class="d-flex justify-content-between">
+                        <a href="#" class="btn btn-sm btn-outline-primary">Details</a>
+                        <a href="#" class="btn btn-sm btn-dark">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+
+{% endblock %}

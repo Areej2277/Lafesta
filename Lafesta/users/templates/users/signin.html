@@ -1,0 +1,14 @@
+{% extends 'main/base.html'%}
+{% block title %} Sign In {% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center py-5">
+    <h2 class="mb-4">Sign In</h2>
+    <form class="w-50 d-flex flex-column gap-3" action="{% url 'users:signin' %}" method="POST">
+        {% csrf_token %}
+        <input class="form-control" type="text" name="username" placeholder="Username" required>
+        <input class="form-control" type="password" name="password" placeholder="Password" required>
+        <button class="btn btn-primary" type="submit">Sign In</button>
+    </form>
+</div>
+{% endblock %}

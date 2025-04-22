@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+{% block title %} Messages - Admin Only {% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2>Contact Messages</h2>
+    {% if messages_list %}
+        <table class="table table-bordered table-striped mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for msg in messages_list %}
+                <tr>
+                    <td>{{ msg.name }}</td>
+                    <td>{{ msg.email }}</td>
+                    <td>{{ msg.message }}</td>
+                    <td>{{ msg.created_at|date:"M d, Y H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-muted mt-4">No messages yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

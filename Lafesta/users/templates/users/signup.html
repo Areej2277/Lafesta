@@ -1,0 +1,37 @@
+{% extends 'main/base.html'%}
+{% block title %} Sign Up {% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center py-5">
+    <h2 class="mb-4">Create an Account</h2>
+    <form class="w-50 d-flex flex-column gap-3" action="{% url 'users:signup' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <input class="form-control" type="email" name="email" placeholder="Email" required>
+        <input class="form-control" type="text" name="username" placeholder="Username" required>
+        <input class="form-control" type="text" name="first_name" placeholder="First Name" required>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name" required>
+        <input class="form-control" type="password" name="password" placeholder="Password" required>
+        <input class="form-control" type="tel" name="phone_number" placeholder="Phone Number" required>
+
+        <select name="city" class="form-select" required>
+            <option disabled selected>Choose City</option>
+            <option value="riyadh">Riyadh</option>
+            <option value="jeddah">Jeddah</option>
+            <option value="dammam">Dammam</option>
+            <option value="abha">Abha</option>
+        </select>
+
+        <select name="user_type" class="form-select" required>
+            <option disabled selected>User Type</option>
+            <option value="customer">Customer</option>
+            <option value="owner">Dress Owner</option>
+        </select>
+
+        <label>Profile Image:</label>
+        <input type="file" name="profile_image" class="form-control">
+
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>
+</div>
+{% endblock %}

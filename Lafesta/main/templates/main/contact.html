@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+{% block title %}Contact Us - Lafesta{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2>Contact Us</h2>
+    <form action="#" method="POST" class="mt-4">
+        {% csrf_token %}
+        <input class="form-control mb-3" type="text" placeholder="Your Name" name="name" required>
+        <input class="form-control mb-3" type="email" placeholder="Your Email" name="email" required>
+        <textarea class="form-control mb-3" rows="5" placeholder="Your Message" name="message" required></textarea>
+        <button class="btn btn-primary">Send Message</button>
+    </form>
+</div>
+{% endblock %}

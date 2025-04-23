@@ -2,14 +2,41 @@
 {% block title %}Contact Us - Lafesta{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <h2>Contact Us</h2>
-    <form action="#" method="POST" class="mt-4">
-        {% csrf_token %}
-        <input class="form-control mb-3" type="text" placeholder="Your Name" name="name" required>
-        <input class="form-control mb-3" type="email" placeholder="Your Email" name="email" required>
-        <textarea class="form-control mb-3" rows="5" placeholder="Your Message" name="message" required></textarea>
-        <button class="btn btn-primary">Send Message</button>
-    </form>
+<div class="container py-5 fade-in">
+    <h2 class="text-center mb-3">Contact Us</h2>
+    <p class="text-center mb-5 text-muted">We’d love to hear from you! Fill out the form below to reach us.</p>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="POST" action="{% url 'main:contact' %}" class="shadow p-4 rounded bg-white bg-opacity-75">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">
+                        <span class="material-symbols-outlined align-middle me-1">person</span> Your Name
+                    </label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">
+                        <span class="material-symbols-outlined align-middle me-1">mail</span> Email
+                    </label>
+                    <input type="email" name="email" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">
+                        <span class="material-symbols-outlined align-middle me-1">edit_note</span> Message
+                    </label>
+                    <textarea name="message" class="form-control" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-dark w-100">
+                    <span class="material-symbols-outlined align-middle me-1">send</span> Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="text-center mt-4 text-muted">
+        <p>Or reach us directly at <strong>support@lafesta.sa</strong></p>
+    </div>
 </div>
 {% endblock %}

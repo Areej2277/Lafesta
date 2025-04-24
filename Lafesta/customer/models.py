@@ -41,7 +41,7 @@ class  Payment (models.Model):
     request= models.ForeignKey(Rentalrequest, on_delete=models.CASCADE)
     created_at=models.DateTimeField(auto_now_add=True)
     refID=models.IntegerField()
-    status=models.CharField(choices=[
+    status=models.CharField(max_length=100 ,choices=[
         ('Paid','Paid'),
         ('Processing','Processing'),
         ('Failed','Failed'),

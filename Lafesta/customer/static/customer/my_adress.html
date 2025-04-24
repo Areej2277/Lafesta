@@ -1,0 +1,27 @@
+{% extends 'main/base.html'%}
+{% block title %} My adress {% endblock %}
+{% load static %}
+
+{% block content %}
+    <section class="container my-5">
+        <h1 class="mb-4">My adress</h1>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+
+            <div class="col">
+                <div class="card shadow-sm h-100">
+                    {{volunteer.gender}}
+                    <div class="card-body">
+                        <h5 class="card-title">Elegant Black Dress</h5>
+                        <p class="card-text">Available now for your next big night.</p>
+                        <div class="d-flex justify-content-between">
+                            <a href="#" class="btn btn-sm btn-outline-primary">Details</a>
+                            <a href="#" class="btn btn-sm btn-dark">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}

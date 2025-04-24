@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'dresses',
     'customer',
     'main',
+    'shipping',
     'phonenumber_field',
 ]
 

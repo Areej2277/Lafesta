@@ -1,3 +1,135 @@
-from django.shortcuts import render
 
 # Create your views here.
+from django.shortcuts import render, redirect , get_object_or_404
+from .forms import DressForm , ReviewForm
+from .models import Dress , Review
+from django.db.models import Q  # تأكدي أنه مضاف بأعلى الملف
+from .forms import RentalForm
+from .models import Rental
+from django.contrib.auth.decorators import login_required
+
+
+
+
+def add_dress(request):
+    if request.method == 'POST':
+        form = DressForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.owner = request.user  # ✅ هنا الربط
+            form.save()
+            return redirect('my_dresses')
+    else:
+        form = DressForm()
+    
+    return render(request, 'dresses/add_dress.html', {'form': form})
+
+def edit_dress(request, dress_id):
+    dress = get_object_or_404(Dress, id=dress_id)
+    if request.user != dress.owner:
+        return redirect('my_dresses')
+
+    if request.method == 'POST':
+        form = DressForm(request.POST, request.FILES, instance=dress)
+        if form.is_valid():
+            form.save()
+            return redirect('dress_detail', dress_id=dress.id)
+    else:
+        form = DressForm(instance=dress)
+
+    return render(request, 'dresses/edit_dress.html', {'form': form, 'dress': dress})
+
+def delete_dress(request, dress_id):
+    dress = get_object_or_404(Dress, id=dress_id)
+    if request.user == dress.owner:
+        dress.delete()
+    return redirect('my_dresses')
+
+
+
+# def my_dresses(request):
+#     dresses = Dress.objects.all()
+#     return render(request, 'dresses/dresses.html', {'dresses': dresses})
+
+def my_dresses(request):
+    dresses = Dress.objects.all()
+
+    # 🔍 البحث بالاسم أو الوصف
+    query = request.GET.get('search')
+    if query:
+       dresses = dresses.filter(
+           Q(name__icontains=query) |
+           Q(description__icontains=query)
+    )
+    # 🎯 الفلترة حسب المقاس
+    size = request.GET.get('size')
+    if size and size != 'all':
+        dresses = dresses.filter(size=size)
+
+    # 🎯 الفلترة حسب الفئة
+    category = request.GET.get('category')
+    if category and category != 'all':
+        dresses = dresses.filter(category=category)
+
+    # 🎯 الفلترة حسب المدينة (من ملف المستخدم)
+    city = request.GET.get('city')
+    if city and city != 'all':
+        dresses = dresses.filter(owner__profile__city=city)
+
+    return render(request, 'dresses/dresses.html', {'dresses': dresses})
+
+
+
+def dress_detail(request, dress_id):
+    dress = get_object_or_404(Dress, id=dress_id)
+    reviews = dress.reviews.all().order_by('-created_at')  # عرض التقييمات من الأحدث إلى الأقدم
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.dress = dress
+            review.user = request.user
+            review.save()
+            return redirect('dress_detail', dress_id=dress.id)
+    else:
+        form = ReviewForm()
+
+    return render(request, 'dresses/dress_detail.html', {
+        'dress': dress,
+        'form': form,
+        'reviews': reviews,
+    })
+
+
+
+
+def rent_dress(request, dress_id):
+    dress = get_object_or_404(Dress, id=dress_id)
+
+    if request.method == 'POST':
+        form = RentalForm(request.POST)
+        if form.is_valid():
+            rental = form.save(commit=False)
+            rental.dress = dress
+            rental.customer = request.user
+            rental.save()
+            # ممكن ترسلي بعدين صفحة تأكيد الاستئجار لو تبغي أوجه المستخدم لها
+            return redirect('dress_detail', dress_id=dress.id)
+    else:
+        form = RentalForm()
+
+    return render(request, 'dresses/rent_dress.html', {
+        'form': form,
+        'dress': dress,
+        'daily_price': dress.price_per_day,  # ✅ هذا هو السطر المطلوب
+
+    })
+
+
+
+@login_required
+def rental_requests(request):
+    user = request.user
+    # جلب جميع الطلبات للفستاتين اللي يملكها المستخدم
+    requests = Rental.objects.filter(dress__owner=user).order_by('-created_at')
+    return render(request, 'dresses/rental_requests.html', {'requests': requests})

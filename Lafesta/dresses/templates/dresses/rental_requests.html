@@ -1,0 +1,49 @@
+{% extends 'main/base.html' %}
+{% block title %} Rental Requests {% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4 text-center">Rental Requests</h2>
+
+    {% if rentals %}
+        <div class="table-responsive">
+            <table class="table table-bordered text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>Dress</th>
+                        <th>Customer</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Total Price</th>
+                        <th>Status</th>
+                        <th>Requested At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rental in rentals %}
+                        <tr>
+                            <td>{{ rental.dress.name }}</td>
+                            <td>{{ rental.customer.username }}</td>
+                            <td>{{ rental.start_date }}</td>
+                            <td>{{ rental.end_date }}</td>
+                            <td>{{ rental.total_price }} SAR</td>
+                            <td>
+                                <span class="badge 
+                                    {% if rental.status == 'pending' %} bg-warning text-dark 
+                                    {% elif rental.status == 'confirmed' %} bg-success 
+                                    {% else %} bg-secondary 
+                                    {% endif %}">
+                                    {{ rental.get_status_display }}
+                                </span>
+                            </td>
+                            <td>{{ rental.created_at|date:"F j, Y, H:i" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-center text-muted">No rental requests yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'main/base.html' %}
+{% block title %} Rent {{ dress.name }} {% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4 text-center">Rent "{{ dress.name }}"</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+
+                        <!-- ✅ عرض السعر لليوم -->
+                        <p><strong>Price per Day:</strong> {{ daily_price }} SAR</p>
+
+                        <!-- ✅ عرض السعر الإجمالي -->
+                        <div class="mb-3">
+                            <label><strong>Total Price:</strong></label>
+                            <p id="total-price">0 SAR</p>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Confirm Rental</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ سكربت لحساب السعر تلقائيًا -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const startInput = document.getElementById('id_start_date');
+        const endInput = document.getElementById('id_end_date');
+        const totalDisplay = document.getElementById('total-price');
+        const pricePerDay = {{ daily_price|floatformat:"2" }};  // ✅ خليها 2 عشري
+
+        function calculateTotal() {
+            const startDate = new Date(startInput.value);
+            const endDate = new Date(endInput.value);
+
+            if (!isNaN(startDate) && !isNaN(endDate) && endDate >= startDate) {
+                const timeDiff = endDate - startDate;
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
+                const total = days * pricePerDay;
+                totalDisplay.textContent = `${total.toFixed(2)} SAR`;
+            } else {
+                totalDisplay.textContent = '0 SAR';
+            }
+        }
+
+        startInput.addEventListener('change', calculateTotal);
+        endInput.addEventListener('change', calculateTotal);
+    });
+</script>
+
+{% endblock %}

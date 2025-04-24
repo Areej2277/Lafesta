@@ -1,0 +1,15 @@
+{% extends 'main/base.html'%}
+{% block title %} Edit Dress {% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center py-5">
+    <h2 class="mb-4">Edit Dress</h2>
+
+    <form class="w-50 d-flex flex-column gap-3" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">Update Dress</button>
+    </form>
+</div>
+{% endblock %}

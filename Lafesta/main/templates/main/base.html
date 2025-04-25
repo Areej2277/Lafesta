@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Lafesta{% endblock %}</title>
@@ -13,37 +13,28 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
     <!-- Google Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-    <!-- Theme JS -->
-    <script src="{% static 'js/theme.js' %}" defer></script>
 </head>
 <body>
 
-<!-- Video Background -->
 {% if request.path == '/' %}
-<video autoplay muted loop id="bgVideo" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -1;">
+<video autoplay muted loop id="bgVideo">
     <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
 </video>
 {% endif %}
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background: rgba(0, 0, 0, 0.8);">
+<nav class="navbar navbar-expand-lg fixed-top custom-navbar">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center" href="{% url 'main:home' %}">
-      <img src="{% static 'images/logo.jpg' %}" alt="Lafesta Logo" width="40" class="me-2">
-      Lafesta
+      <img src="{% static 'images/logo.jpg' %}" alt="Logo" width="40" class="me-2"> Lafesta
     </a>
-
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse justify-content-end" id="navMenu">
       <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link" href="{% url 'main:home' %}">Home</a></li>
@@ -63,7 +54,7 @@
             <a class="nav-link" href="{% url 'rental_requests' %}">Rental Requests</a>
         </li>
                   {% endif %}
-
+            
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
               <img src="{{ user.profile.profile_image.url }}" class="rounded-circle" width="30" height="30" alt="Profile">
@@ -73,17 +64,13 @@
               {% if user.is_superuser %}
               <li><a class="dropdown-item" href="{% url 'main:messages' %}">Messages</a></li>
               {% endif %}
-              <li><a class="dropdown-item" href="{% url 'users:logout' %}">
-                <span class="material-symbols-outlined">logout</span> Logout
-              </a></li>
+              <li><a class="dropdown-item" href="{% url 'users:logout' %}"><span class="material-symbols-outlined">logout</span> Logout</a></li>
             </ul>
           </li>
         {% else %}
           <li class="nav-item"><a class="nav-link" href="{% url 'users:signin' %}">Sign In</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'users:signup' %}">Sign Up</a></li>
         {% endif %}
-
-        <!-- Theme Switcher -->
         <li class="nav-item">
           <button id="theme-toggle" class="btn btn-outline-light ms-2">
             <span id="theme-icon" class="material-symbols-outlined">dark_mode</span>
@@ -94,12 +81,23 @@
   </div>
 </nav>
 
-<div style="margin-top: 80px;">
+<!-- Page Content -->
+<div style="margin-top: 100px;">
   {% block content %}{% endblock %}
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Footer -->
+<footer class="footer fixed-bottom bg-dark text-white text-center py-2">
+  <div class="container">
+    <span class="me-3">Follow us:</span>
+    <i class="fa-brands fa-instagram me-2"></i>
+    <i class="fa-brands fa-twitter me-2"></i>
+    <i class="fa-brands fa-facebook-f"></i>
+  </div>
+</footer>
 
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/theme.js' %}"></script>
 </body>
 </html>

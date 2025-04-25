@@ -1,0 +1,26 @@
+{% extends 'main/base.html'%}
+{% block title %} Add adress {% endblock %}
+{% load static %}
+
+{% block content %}
+    <div class="container d-flex flex-column justify-content-center align-items-center py-5">
+        <h2 class="mb-4">Add adress</h2>
+        <form class="w-50 d-flex flex-column gap-3" action="{% url 'customer:update_adress' adress.id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <select name="city" class="form-select">
+                <option disabled >Available cities</option>
+                <option value="riyadh" {% if "riyadh" in adress.city %} selected {% endif %} >Riyadh</option>
+                <option value="jeddah" {% if "jeddah" in adress.city %} selected {% endif %}>Jeddah</option>
+                <option value="dammam"{% if "dammam" in adress.city %} selected {% endif %}>Dammam</option>
+                <option value="abha" {% if "abha" in adress.city %} selected {% endif %}>Abha</option>
+            </select>
+            {{ booking.date }}
+            <input class="form-control" type="text" name="neighborhood" value="{{adress.neighborhood}}">
+            <input class="form-control" type="text" name="postcode" value="{{adress.postcode}}" >
+            <textarea class="form-control" type="text" name="comments">{{adress.comments}}</textarea>
+
+
+            <button type="submit" class="btn btn-primary">Update adress</button>
+        </form>
+    </div>
+{% endblock %}

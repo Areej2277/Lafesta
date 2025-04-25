@@ -1,47 +1,63 @@
-{% extends 'main/base.html'%}
+{% extends 'main/base.html' %}
 {% block title %} Edit Profile {% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <h2 class="mb-4">Update Profile</h2>
-    <form method="POST" enctype="multipart/form-data" class="row g-3">
-        {% csrf_token %}
+<div class="container py-5 fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow border-0">
+                <div class="card-body p-5">
+                    <h3 class="mb-4 text-center fw-bold">Update Your Profile</h3>
 
-        <div class="col-md-6">
-            <input type="text" class="form-control" name="first_name" value="{{ request.user.first_name }}" placeholder="First Name">
-        </div>
-        <div class="col-md-6">
-            <input type="text" class="form-control" name="last_name" value="{{ request.user.last_name }}" placeholder="Last Name">
-        </div>
-        <div class="col-12">
-            <input type="email" class="form-control" name="email" value="{{ request.user.email }}" placeholder="Email">
-        </div>
-        <div class="col-12">
-            <input type="tel" class="form-control" name="phone_number" value="{{ request.user.profile.phone_number }}" placeholder="Phone Number">
-        </div>
-        <div class="col-md-6">
-            <select name="city" class="form-select">
-                <option value="riyadh" {% if request.user.profile.city == 'riyadh' %}selected{% endif %}>Riyadh</option>
-                <option value="jeddah" {% if request.user.profile.city == 'jeddah' %}selected{% endif %}>Jeddah</option>
-                <option value="dammam" {% if request.user.profile.city == 'dammam' %}selected{% endif %}>Dammam</option>
-                <option value="abha" {% if request.user.profile.city == 'abha' %}selected{% endif %}>Abha</option>
-            </select>
-        </div>
-        <div class="col-md-6">
-            <select name="user_type" class="form-select">
-                <option value="customer" {% if request.user.profile.user_type == 'customer' %}selected{% endif %}>Customer</option>
-                <option value="owner" {% if request.user.profile.user_type == 'owner' %}selected{% endif %}>Dress Owner</option>
-            </select>
-        </div>
+                    <form method="POST" enctype="multipart/form-data" class="row g-3">
+                        {% csrf_token %}
 
-        <div class="col-12">
-            <label for="profile_image">Change Profile Image:</label>
-            <input type="file" name="profile_image" class="form-control">
-        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="first_name" value="{{ request.user.first_name }}" placeholder="First Name">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="last_name" value="{{ request.user.last_name }}" placeholder="Last Name">
+                        </div>
+                        <div class="col-12">
+                            <input type="email" class="form-control" name="email" value="{{ request.user.email }}" placeholder="Email">
+                        </div>
+                        <div class="col-12">
+                            <input type="tel" class="form-control" name="phone_number" value="{{ request.user.profile.phone_number }}" placeholder="Phone Number">
+                        </div>
 
-        <div class="col-12">
-            <button type="submit" class="btn btn-success w-100">Save Changes</button>
+                        <div class="col-md-6">
+                            <select name="city" class="form-select">
+                                <option disabled selected>Select City</option>
+                                <option value="riyadh" {% if request.user.profile.city == 'riyadh' %}selected{% endif %}>Riyadh</option>
+                                <option value="jeddah" {% if request.user.profile.city == 'jeddah' %}selected{% endif %}>Jeddah</option>
+                                <option value="dammam" {% if request.user.profile.city == 'dammam' %}selected{% endif %}>Dammam</option>
+                                <option value="abha" {% if request.user.profile.city == 'abha' %}selected{% endif %}>Abha</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <select name="user_type" class="form-select">
+                                <option disabled selected>Select Type</option>
+                                <option value="customer" {% if request.user.profile.user_type == 'customer' %}selected{% endif %}>Customer</option>
+                                <option value="owner" {% if request.user.profile.user_type == 'owner' %}selected{% endif %}>Dress Owner</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="profile_image" class="form-label">Change Profile Image</label>
+                            <input type="file" name="profile_image" class="form-control">
+                        </div>
+
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-warning w-100">
+                                <span class="material-symbols-outlined align-middle me-1">save</span> Save Changes
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
         </div>
-    </form>
+    </div>
 </div>
 {% endblock %}

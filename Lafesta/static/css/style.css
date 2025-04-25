@@ -11,7 +11,12 @@ body {
     color: #f8f8f8;
 }
 
+.dark-mode .navbar,
+.dark-mode .footer {
+    background-color: #000 !important;
+}
 
+/* Background video */
 #bgVideo {
     position: fixed;
     top: 0;
@@ -22,7 +27,7 @@ body {
     z-index: -1;
 }
 
-
+/* Logo */
 .navbar-brand img {
     transition: transform 0.3s;
 }
@@ -30,13 +35,14 @@ body {
     transform: scale(1.05);
 }
 
-
+/* Top bar */
 .navbar {
     background-color: rgba(0, 0, 0, 0.8) !important;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.4s ease-in-out;
 }
 
-
+/* Navbar links */
 .nav-link {
     color: #fff !important;
     transition: color 0.3s ease;
@@ -59,7 +65,7 @@ body {
     width: 100%;
 }
 
-
+/* Night mode button */
 .theme-toggle {
     color: #fff;
     cursor: pointer;
@@ -71,7 +77,7 @@ body {
     transform: rotate(20deg);
 }
 
-
+/* Profile picture */
 .navbar img.rounded-circle {
     border: 2px solid #FFD700;
     transition: box-shadow 0.3s;
@@ -95,3 +101,19 @@ body {
     animation: fadeInUp 1s ease-in-out;
 }
 
+
+.footer {
+    font-size: 16px;
+    background-color: #111;
+    border-top: 1px solid #444;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.footer i {
+    color: #FFD700;
+    transition: color 0.3s;
+}
+.footer i:hover {
+    color: white;
+}

@@ -47,24 +47,47 @@ def add_bookmark(request:HttpRequest,dress_id):
 
     return redirect("صفحة تفاصيل الفستان من اب ايمان",dress_id=dress_id)
 #عشان اعرض الفساتين المفضلة 
+#تحتاج تعديل الفيو و الصفحة نفسها 
 def favorites_list(request:HttpRequest ,user_id):
 
     return render(request ,'favorites_list.html')
 
 def  create_rentalrequest(request:HttpRequest):
-      if request.method=="POST":
+    if request.method=="POST":
         new_request=Rentalrequest(rentalDuration=request.POST["rentalDuration"],request_status=request.POST["request_status"])
         new_request.save()
         return redirect('main:home')
 
-      return render(request ,'create_rentalrequest.html')
+    return render(request ,'create_rentalrequest.html')
 
 def add_adress(request:HttpRequest):
     if request.method=="POST":
-        new_adress=Adress(City=request.POST["City"], neighborhood=request.POST["neighborhood"],postcode=request.POST["postcode"],comments=request.POST["comments"])
+        new_adress=Adress(city=request.POST["City"], neighborhood=request.POST["neighborhood"],postcode=request.POST["postcode"],comments=request.POST["comments"],user=request.user)
         new_adress.save()
         return redirect('main:home')
-
+    
     return render(request ,'add_adress.html')
+
+#يحتاج تعديل الصفحة و الفيو 
+def my_adress(request:HttpRequest):
+
+    adress = Adress.objects.filter(user=request.user)
+
+    return render(request ,'my_adress.html',{"adress":adress})
+
+def update_adress(request:HttpRequest ,adress_id:int):
+    adress = Adress.objects.get(pk=adress_id, user=request.user)
+    if request.method=="POST":
+        adress=Adress(city=request.POST["City"], neighborhood=request.POST["neighborhood"],postcode=request.POST["postcode"],comments=request.POST["comments"])
+        adress.save()
+        return redirect("customer:my_adress",adress_id = adress.id)
+    
+    return render(request ,'update_adress.html',{"adress":adress})
+
+def delete_adress(request:HttpRequest ,adress_id:int):
+    adress = Adress.objects.get(pk=adress_id, user=request.user)
+    adress.delete()
+    #غيري الريدايركت خليه لصفحة الادريس
+    return redirect("customer:my_adress")
 
 

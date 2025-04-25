@@ -1,0 +1,27 @@
+{% extends 'main/base.html'%}
+{% block title %} create rental request{% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center py-5">
+    <h2 class="mb-4">create rental request</h2>
+    <form class="w-50 d-flex flex-column gap-3" action="{% url 'customer:create_rentalrequest' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+       
+        <select name="rentalDuration" class="form-select" required>
+            <option disabled selected>Rental Duration</option>
+            <option value=1>One day</option>
+            <option value=2>Two days</option>
+            <option value=3>Three days</option>
+        </select>
+        <select name="Request Status" class="form-select" required>
+            <option disabled selected>Rental Duration</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Not Confirmed">Not Confirmed</option>
+        </select>
+
+
+        <button type="submit" class="btn btn-primary">Send Request</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'main/base.html' %}
+{% block title %} Dresses List {% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <!-- ✅ زر الإضافة -->
+    <div class="d-flex justify-content-end mb-3">
+        {% if request.user.is_authenticated and request.user.profile.user_type == 'owner' %}
+            <a href="{% url 'add_dress' %}" class="btn btn-success">+ Add New Dress</a>
+        {% endif %}
+    </div>
+
+    <h2 class="mb-4 text-center">All Dresses</h2>
+
+    <!-- ✅ نموذج البحث والفلترة -->
+    <form method="GET" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <input type="text" name="search" class="form-control" placeholder="Search by name..." value="{{ request.GET.search }}">
+        </div>
+        <div class="col-md-2">
+            <select name="size" class="form-select">
+                <option value="">All Sizes</option>
+                <option value="S" {% if request.GET.size == 'S' %}selected{% endif %}>Small</option>
+                <option value="M" {% if request.GET.size == 'M' %}selected{% endif %}>Medium</option>
+                <option value="L" {% if request.GET.size == 'L' %}selected{% endif %}>Large</option>
+                <option value="XL" {% if request.GET.size == 'XL' %}selected{% endif %}>X-Large</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select name="category" class="form-select">
+                <option value="">All Categories</option>
+                <option value="wedding" {% if request.GET.category == 'wedding' %}selected{% endif %}>Wedding</option>
+                <option value="party" {% if request.GET.category == 'party' %}selected{% endif %}>Party</option>
+                <option value="evening" {% if request.GET.category == 'evening' %}selected{% endif %}>Evening</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select name="city" class="form-select">
+                <option value="">All Cities</option>
+                <option value="riyadh" {% if request.GET.city == 'riyadh' %}selected{% endif %}>Riyadh</option>
+                <option value="jeddah" {% if request.GET.city == 'jeddah' %}selected{% endif %}>Jeddah</option>
+                <option value="dammam" {% if request.GET.city == 'dammam' %}selected{% endif %}>Dammam</option>
+                <option value="abha" {% if request.GET.city == 'abha' %}selected{% endif %}>Abha</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-outline-primary w-100">Filter</button>
+        </div>
+    </form>
+
+    {% if dresses %}
+    <div class="row">
+        {% for dress in dresses %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                {% if dress.image %}
+                <img src="{{ dress.image.url }}" class="card-img-top" alt="{{ dress.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ dress.name }}</h5>
+                    <p class="card-text">{{ dress.description|truncatewords:15 }}</p>
+                    <p class="text-muted">{{ dress.price_per_day }} SAR / day</p>
+                    <p class="mb-1"><strong>Size:</strong> {{ dress.get_size_display }}</p>
+                    <p class="mb-1">
+                        <strong>Color:</strong>
+                        <span style="display:inline-block; width:15px; height:15px; background-color:{{ dress.color }}; border: 1px solid #ccc;"></span>
+                        {{ dress.color }}
+                    </p>
+                    <p class="mb-1">
+                        <strong>Status:</strong>
+                        <span class="badge
+                            {% if dress.status == 'available' %} bg-success
+                            {% elif dress.status == 'rented' %} bg-warning text-dark
+                            {% else %} bg-secondary
+                            {% endif %}">
+                            {{ dress.get_status_display }}
+                        </span>
+                    </p>
+                    <div class="mt-3 text-end">
+                        <a href="{% url 'dress_detail' dress.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p class="text-center">No dresses found.</p>
+    {% endif %}
+</div>
+{% endblock %}

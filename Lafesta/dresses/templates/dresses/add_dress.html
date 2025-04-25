@@ -1,0 +1,82 @@
+{% extends 'main/base.html'%}
+{% block title %} Add Dress {% endblock %}
+
+{% block content %}
+<!-- ✅ مكتبات Select2 و jQuery -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<div class="container d-flex flex-column justify-content-center align-items-center py-5">
+    <h2 class="mb-4">Add a New Dress</h2>
+
+    <form class="w-50 d-flex flex-column gap-3" action="{% url 'add_dress' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <input class="form-control" type="text" name="name" placeholder="Dress Name" required>
+
+        <!-- ✅ قائمة منسدلة للألوان باستخدام Select2 -->
+        <label>Select Color:</label>
+        <select class="form-select color-select" name="color" required>
+            <option value="" disabled selected>Select Color</option>
+            <option value="White" data-color="#ffffff">White</option>
+            <option value="Black" data-color="#000000">Black</option>
+            <option value="Red" data-color="#ff0000">Red</option>
+            <option value="Blue" data-color="#007bff">Blue</option>
+            <option value="Gold" data-color="#ffd700">Gold</option>
+            <option value="Silver" data-color="#c0c0c0">Silver</option>
+            <option value="Beige" data-color="#f5f5dc">Beige</option>
+        </select>
+
+        <select name="size" class="form-select" required>
+            <option disabled selected>Choose Size</option>
+            <option value="S">Small</option>
+            <option value="M">Medium</option>
+            <option value="L">Large</option>
+            <option value="XL">X-Large</option>
+        </select>
+
+        <input class="form-control" type="number" name="price_per_day" placeholder="Price Per Day (SAR)" required>
+
+        <select name="category" class="form-select" required>
+            <option disabled selected>Select Category</option>
+            <option value="wedding">Wedding</option>
+            <option value="party">Party</option>
+            <option value="evening">Evening</option>
+        </select>
+
+        <textarea class="form-control" name="description" placeholder="Dress Description" rows="3" required></textarea>
+
+        <label>Dress Image:</label>
+        <input type="file" name="image" class="form-control" accept="image/*">
+
+        <label>Dress Video (optional):</label>
+        <input type="file" name="video" class="form-control" accept="video/*">
+
+        <!-- ✅ حقل الحالة -->
+        <label>Dress Status:</label>
+        {{ form.status }}
+
+        <button type="submit" class="btn btn-primary">Save Dress</button>
+    </form>
+</div>
+
+<!-- ✅ تفعيل Select2 وإظهار مربعات الألوان -->
+<script>
+    $(document).ready(function() {
+        function formatColorOption(state) {
+            if (!state.id) return state.text;
+
+            var color = $(state.element).data('color');
+            var $state = $(`<span><span style="display:inline-block;width:14px;height:14px;background-color:${color};margin-right:8px;border:1px solid #ccc;"></span>${state.text}</span>`);
+            return $state;
+        }
+
+        $('.color-select').select2({
+            templateResult: formatColorOption,
+            templateSelection: formatColorOption,
+            width: '100%'
+        });
+    });
+</script>
+{% endblock %}

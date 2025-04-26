@@ -1,4 +1,4 @@
-{% extends 'main/base.html'%}
+{% extends 'main/base.html' %}
 {% block title %} Add Dress {% endblock %}
 
 {% block content %}
@@ -10,14 +10,31 @@
 <div class="container d-flex flex-column justify-content-center align-items-center py-5">
     <h2 class="mb-4">Add a New Dress</h2>
 
-    <form class="w-50 d-flex flex-column gap-3" action="{% url 'add_dress' %}" method="POST" enctype="multipart/form-data">
+    <form class="w-50 d-flex flex-column gap-3" method="POST" enctype="multipart/form-data" action="{% url 'add_dress' %}">
         {% csrf_token %}
 
-        <input class="form-control" type="text" name="name" placeholder="Dress Name" required>
+        <!-- ✅ عرض الأخطاء إن وجدت -->
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
 
-        <!-- ✅ قائمة منسدلة للألوان باستخدام Select2 -->
+        <!-- ✅ الحقول بتنسيق يدوي مرتب -->
+
+        <input type="text" name="name" class="form-control" placeholder="Dress Name" required>
+
         <label>Select Color:</label>
-        <select class="form-select color-select" name="color" required>
+        <select name="color" class="form-select color-select" required>
             <option value="" disabled selected>Select Color</option>
             <option value="White" data-color="#ffffff">White</option>
             <option value="Black" data-color="#000000">Black</option>
@@ -28,16 +45,17 @@
             <option value="Beige" data-color="#f5f5dc">Beige</option>
         </select>
 
+        <label>Choose Size:</label>
         <select name="size" class="form-select" required>
             <option disabled selected>Choose Size</option>
             <option value="S">Small</option>
             <option value="M">Medium</option>
             <option value="L">Large</option>
-            <option value="XL">X-Large</option>
         </select>
 
-        <input class="form-control" type="number" name="price_per_day" placeholder="Price Per Day (SAR)" required>
+        <input type="number" name="price_per_day" class="form-control" placeholder="Price Per Day (SAR)" step="0.01" required>
 
+        <label>Select Category:</label>
         <select name="category" class="form-select" required>
             <option disabled selected>Select Category</option>
             <option value="wedding">Wedding</option>
@@ -45,28 +63,30 @@
             <option value="evening">Evening</option>
         </select>
 
-        <textarea class="form-control" name="description" placeholder="Dress Description" rows="3" required></textarea>
+        <textarea name="description" class="form-control" placeholder="Dress Description" rows="3" required></textarea>
 
         <label>Dress Image:</label>
-        <input type="file" name="image" class="form-control" accept="image/*">
+        <input type="file" name="image" class="form-control" accept="image/*" required>
 
         <label>Dress Video (optional):</label>
         <input type="file" name="video" class="form-control" accept="video/*">
 
-        <!-- ✅ حقل الحالة -->
         <label>Dress Status:</label>
-        {{ form.status }}
+        <select name="status" class="form-select" required>
+            <option value="available" selected>Available</option>
+            <option value="rented">Rented</option>
+            <option value="unavailable">Unavailable</option>
+        </select>
 
         <button type="submit" class="btn btn-primary">Save Dress</button>
     </form>
 </div>
 
-<!-- ✅ تفعيل Select2 وإظهار مربعات الألوان -->
+<!-- ✅ سكربت Select2 للألوان -->
 <script>
     $(document).ready(function() {
         function formatColorOption(state) {
             if (!state.id) return state.text;
-
             var color = $(state.element).data('color');
             var $state = $(`<span><span style="display:inline-block;width:14px;height:14px;background-color:${color};margin-right:8px;border:1px solid #ccc;"></span>${state.text}</span>`);
             return $state;
@@ -79,4 +99,5 @@
         });
     });
 </script>
+
 {% endblock %}

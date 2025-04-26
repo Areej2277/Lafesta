@@ -8,6 +8,9 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card shadow-sm">
+                {% if dress.image %}
+                    <img src="{{ dress.image.url }}" class="card-img-top" alt="{{ dress.name }}">
+                {% endif %}
                 <div class="card-body">
                     <form method="POST">
                         {% csrf_token %}
@@ -36,7 +39,7 @@
         const startInput = document.getElementById('id_start_date');
         const endInput = document.getElementById('id_end_date');
         const totalDisplay = document.getElementById('total-price');
-        const pricePerDay = {{ daily_price|floatformat:"2" }};  // ✅ خليها 2 عشري
+        const pricePerDay = {{ daily_price|floatformat:"2" }};
 
         function calculateTotal() {
             const startDate = new Date(startInput.value);
@@ -56,5 +59,4 @@
         endInput.addEventListener('change', calculateTotal);
     });
 </script>
-
 {% endblock %}

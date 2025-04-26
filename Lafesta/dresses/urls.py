@@ -10,6 +10,9 @@ urlpatterns = [
     path('<int:dress_id>/delete/', views.delete_dress, name='delete_dress'),
     path('<int:dress_id>/rent/', views.rent_dress, name='rent_dress'),  # ✅ رابط صفحة الاستئجار
     path('rental/requests/', views.rental_requests, name='rental_requests'),
+    path('rental/<int:rental_id>/<str:action>/', views.rental_action, name='rental_action'),
+    path('orders/', views.my_orders, name='my_orders'),
+
 
 
 

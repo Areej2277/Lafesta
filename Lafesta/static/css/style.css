@@ -5,7 +5,6 @@ body {
     transition: background-color 0.4s, color 0.4s;
 }
 
-
 .dark-mode {
     background-color: #121212;
     color: #f8f8f8;
@@ -29,10 +28,12 @@ body {
 
 /* Logo */
 .navbar-brand img {
+    width: 65px;
+    height: auto; 
     transition: transform 0.3s;
 }
 .navbar-brand img:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 /* Top bar */
@@ -86,7 +87,7 @@ body {
     box-shadow: 0 0 10px #FFD700;
 }
 
-
+/* Animation */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -101,7 +102,7 @@ body {
     animation: fadeInUp 1s ease-in-out;
 }
 
-
+/* Footer */
 .footer {
     font-size: 16px;
     background-color: #111;
@@ -116,4 +117,40 @@ body {
 }
 .footer i:hover {
     color: white;
+}
+
+/* Dresses Section in Home */
+.new-dresses .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+}
+.new-dresses .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+.new-dresses img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .navbar-brand img {
+        width: 50px;
+    }
+    .nav-link {
+        font-size: 16px;
+    }
+    body {
+        font-size: 16px;
+    }
+    .footer {
+        font-size: 14px;
+    }
+    .new-dresses img {
+        height: 200px;
+    }
 }

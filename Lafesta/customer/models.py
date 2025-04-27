@@ -29,23 +29,16 @@ class Adress(models.Model):
     postcode=models.IntegerField()
     comments=models.TextField()
 
-class Review (models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    #dress = models.ForeignKey(Dress, on_delete=models.CASCADE)
-    name=models.CharField(max_length=100)
-    rating=models.SmallIntegerField()
-    comment=models.TextField()
-    created_at=models.DateTimeField(auto_now_add=True)
 
-class  Payment (models.Model):
-    request= models.ForeignKey(Rentalrequest, on_delete=models.CASCADE)
-    created_at=models.DateTimeField(auto_now_add=True)
-    refID=models.IntegerField()
-    status=models.CharField(max_length=100 ,choices=[
-        ('Paid','Paid'),
-        ('Processing','Processing'),
-        ('Failed','Failed'),
-        ('Refunded','Refunded')
-    ])
+# class  Payment (models.Model):
+#     request= models.ForeignKey(Rentalrequest, on_delete=models.CASCADE)
+#     created_at=models.DateTimeField(auto_now_add=True)
+#     refID=models.IntegerField()
+#     status=models.CharField(max_length=100 ,choices=[
+#         ('Paid','Paid'),
+#         ('Processing','Processing'),
+#         ('Failed','Failed'),
+#         ('Refunded','Refunded')
+#     ])
 
 

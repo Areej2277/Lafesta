@@ -1,9 +1,9 @@
 {% extends 'main/base.html' %}
-{% block title %} Rental Requests {% endblock %}
+{% block title %} My Orders {% endblock %}
 
 {% block content %}
 <div class="container py-5">
-    <h2 class="mb-4 text-center">Rental Requests</h2>
+    <h2 class="mb-4 text-center">My Rental Orders</h2>
 
     {% if rentals %}
         <div class="table-responsive">
@@ -11,13 +11,11 @@
                 <thead class="table-light">
                     <tr>
                         <th>Dress</th>
-                        <th>Customer</th>
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Total Price</th>
                         <th>Status</th>
                         <th>Requested At</th>
-                        <th>Actions</th> {# ✅ عمود جديد للأكشنات #}
                     </tr>
                 </thead>
                 <tbody>
@@ -25,42 +23,31 @@
                         <tr>
                             <td>
                                 {% if rental.dress.image %}
-                                    <img src="{{ rental.dress.image.url }}" alt="{{ rental.dress.name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-bottom: 5px;">
+                                    <img src="{{ rental.dress.image.url }}" alt="{{ rental.dress.name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 5px;">
                                 {% endif %}
                                 <br>
                                 {{ rental.dress.name }}
                             </td>
-                            <td>{{ rental.customer.username }}</td>
                             <td>{{ rental.start_date }}</td>
                             <td>{{ rental.end_date }}</td>
                             <td>{{ rental.total_price }} SAR</td>
                             <td>
                                 <span class="badge 
-                                    {% if rental.status == 'pending' %} bg-warning text-dark 
-                                    {% elif rental.status == 'confirmed' %} bg-success 
-                                    {% else %} bg-secondary 
+                                    {% if rental.status == 'pending' %} bg-warning text-dark
+                                    {% elif rental.status == 'confirmed' %} bg-success
+                                    {% else %} bg-secondary
                                     {% endif %}">
                                     {{ rental.get_status_display }}
                                 </span>
                             </td>
                             <td>{{ rental.created_at|date:"F j, Y, H:i" }}</td>
-                            <td>
-                                {% if rental.status == 'pending' %}
-                                    <div class="d-flex flex-column gap-1">
-                                        <a href="{% url 'rental_action' rental.id 'confirm' %}" class="btn btn-success btn-sm">Confirm</a>
-                                        <a href="{% url 'rental_action' rental.id 'cancel' %}" class="btn btn-danger btn-sm">Cancel</a>
-                                    </div>
-                                {% else %}
-                                    <span class="text-muted">No Actions</span>
-                                {% endif %}
-                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     {% else %}
-        <p class="text-center text-muted">No rental requests yet.</p>
+        <p class="text-center text-muted">You have no rental orders yet.</p>
     {% endif %}
 </div>
 {% endblock %}

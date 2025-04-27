@@ -7,6 +7,8 @@ from django.db.models import Q  # تأكدي أنه مضاف بأعلى المل
 from .forms import RentalForm
 from .models import Rental
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 
 
@@ -102,7 +104,6 @@ def dress_detail(request, dress_id):
 
 
 
-
 def rent_dress(request, dress_id):
     dress = get_object_or_404(Dress, id=dress_id)
 
@@ -113,7 +114,7 @@ def rent_dress(request, dress_id):
             rental.dress = dress
             rental.customer = request.user
             rental.save()
-            # ممكن ترسلي بعدين صفحة تأكيد الاستئجار لو تبغي أوجه المستخدم لها
+            messages.success(request, 'Rental request submitted successfully!')  # ✅ رسالة النجاح
             return redirect('dress_detail', dress_id=dress.id)
     else:
         form = RentalForm()
@@ -121,8 +122,7 @@ def rent_dress(request, dress_id):
     return render(request, 'dresses/rent_dress.html', {
         'form': form,
         'dress': dress,
-        'daily_price': dress.price_per_day,  # ✅ هذا هو السطر المطلوب
-
+        'daily_price': dress.price_per_day,  # تأكد هذا موجود
     })
 
 
@@ -132,4 +132,31 @@ def rental_requests(request):
     user = request.user
     # جلب جميع الطلبات للفستاتين اللي يملكها المستخدم
     requests = Rental.objects.filter(dress__owner=user).order_by('-created_at')
-    return render(request, 'dresses/rental_requests.html', {'requests': requests})
+   # return render(request, 'dresses/rental_requests.html', {'requests': requests})
+    return render(request, 'dresses/rental_requests.html', {'rentals': requests})
+
+
+
+
+@login_required
+def rental_action(request, rental_id, action):
+    rental = get_object_or_404(Rental, id=rental_id, dress__owner=request.user)
+
+    if action == 'confirm':
+        rental.status = 'confirmed'
+        messages.success(request, 'Rental request confirmed successfully! ✅')
+    elif action == 'cancel':
+        rental.status = 'cancelled'
+        messages.error(request, 'Rental request cancelled. ❌')
+
+    rental.save()
+    return redirect('rental_requests')
+
+
+@login_required
+def my_orders(request):
+    user = request.user
+    # جلب كل الطلبات اللي سواها المستخدم الحالي
+    orders = Rental.objects.filter(customer=user).order_by('-created_at')
+    return render(request, 'dresses/orders.html', {'rentals': orders})
+

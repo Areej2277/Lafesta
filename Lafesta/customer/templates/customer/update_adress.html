@@ -14,7 +14,6 @@
                 <option value="dammam"{% if "dammam" in adress.city %} selected {% endif %}>Dammam</option>
                 <option value="abha" {% if "abha" in adress.city %} selected {% endif %}>Abha</option>
             </select>
-            {{ booking.date }}
             <input class="form-control" type="text" name="neighborhood" value="{{adress.neighborhood}}">
             <input class="form-control" type="text" name="postcode" value="{{adress.postcode}}" >
             <textarea class="form-control" type="text" name="comments">{{adress.comments}}</textarea>

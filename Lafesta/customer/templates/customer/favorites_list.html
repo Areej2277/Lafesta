@@ -2,7 +2,7 @@
 {% block title%} My favorites list{% endblock %}
 {% load static %}
 {% block content %}
-    <section class="container my-5">
+    <section class="container my-5 text-center ">
         {% if request.user == user %}
             <h1 class="mb-4">My favorites list</h1>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
@@ -13,21 +13,19 @@
                         
                         <div class="card-body">
                             <div class="card-img">
-                                <!--غيري الاسم حق الرابط حسب -->
-                                <!--{{bookmark.dress.poster.url}}-->
-                                <img src="#" class="w-50">
+                                <img src="{{bookmark.dress.image.url}}" class="w-50">
                             </div>
-                            <!--{{bookmark.dress.name}} هذا احطه مكان التايتل -->
-                            <h5 class="card-title">#</h5>
+                            <h5 class="card-title">{{bookmark.dress.name}}</h5>
                             <div class="d-flex justify-content-between">
-                                <!--هنا لا تنسي تحطي الروابط اللي توديكي على صفحة الديتيلز حقت الفستان من ايمان  -->
-                                <!--{{% url 'dress:dress_detal' bookmark.dress.id %}} مكان البتن احط هذا السطر-->
-                                <a href="#" class="btn btn-sm btn-dark">Rent</a>
+                                <a href="{% url 'dresses:dress_detail' bookmark.dress.id %}" class="btn btn-sm btn-dark">More details </a>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% empty %}
+                  <p class="text-center mt-4">There are no dresses on your favorites list</p>
                 {% endfor %}
 
-    {% endif %}
+        {% endif %}
+    </section >
 {% endblock %}

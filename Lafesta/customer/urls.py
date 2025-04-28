@@ -8,6 +8,6 @@ urlpatterns=[
     path("favorites_list/<user_id>/",views.favorites_list,name="favorites_list"),
     path("add_adress/",views.add_adress,name="add_adress"),
     path("my_adress/",views.my_adress,name="my_adress"),
-    path("update_adress<int:adress_id>/",views.update_adress,name="update_adress"),
-    path("delete_adress<int:adress_id>/",views.delete_adress,name="delete_adress"),
+    path("update_adress/<int:adress_id>/",views.update_adress,name="update_adress"),
+    path("delete_adress/<int:adress_id>/",views.delete_adress,name="delete_adress"),
 ]

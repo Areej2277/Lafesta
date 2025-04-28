@@ -26,7 +26,7 @@ def add_bookmark(request:HttpRequest,dress_id):
             new_bookmark.save()
             messages.success(request, "The dress has been added to your favorites list" , "alert-success")
         else:
-            bookmark.delete
+            bookmark.delete()
             messages.warning(request, "The dress has been removed from the favorites list" ,"alert-warning")
     except Exception as e:
         print(e)
@@ -59,12 +59,12 @@ def my_adress(request:HttpRequest):
 
     adress = Adress.objects.filter(user=request.user)
 
-    return render(request ,'my_adress.html',{"adress":adress})
+    return render(request ,'customer/my_adress.html',{"adress":adress})
 
 def update_adress(request:HttpRequest ,adress_id:int):
     adress = Adress.objects.get(pk=adress_id, user=request.user)
     if request.method=="POST":
-            new_adress=Adress(city=request.POST["City"], neighborhood=request.POST["neighborhood"],postcode=request.POST["postcode"],comments=request.POST["comments"],user=request.user)
+            new_adress=Adress(city=request.POST["city"], neighborhood=request.POST["neighborhood"],postcode=request.POST["postcode"],comments=request.POST["comments"],user=request.user)
             new_adress.save()
             #لا تنسي تغيري الري دايركت لصفحة الشحن بعد ما تسويها
             return redirect('main:home')

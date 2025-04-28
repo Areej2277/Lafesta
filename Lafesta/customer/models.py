@@ -18,7 +18,7 @@ class Adress(models.Model):
         city2="jeddah","Jeddah"
         city3="dammam","Dammam"
         city4="abha","Abha"
-    city=models.CharField(choices=Citychoices.choices)
+    city=models.CharField(choices=Citychoices.choices ,max_length=100)
     neighborhood=models.CharField(max_length=100)
     postcode=models.IntegerField()
     comments=models.TextField()

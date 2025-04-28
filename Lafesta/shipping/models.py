@@ -19,4 +19,4 @@ class Shipment(models.Model):
         status8='Returned to Sender','Returned to Sender'
         status9='Shipment Canceled','Shipment Canceled'
         
-    status=models.CharField(choices=Statuschoices.choices)
+    status=models.CharField(choices=Statuschoices.choices ,max_length=100)

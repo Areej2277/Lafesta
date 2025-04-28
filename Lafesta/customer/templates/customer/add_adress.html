@@ -7,21 +7,20 @@
     <h2 class="mb-4">Add adress</h2>
     <form class="w-50 d-flex flex-column gap-3" action="{% url 'customer:add_adress' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-
-        <select name="city" class="form-select" required>
-            <option disabled selected>Available cities</option>
-            <option value="riyadh">Riyadh</option>
-            <option value="jeddah">Jeddah</option>
+        <select name="city" class="form-select">
+            <option disabled >Available cities</option>
+            <option value="riyadh" >Riyadh</option>
+            <option value="jeddah" >Jeddah</option>
             <option value="dammam">Dammam</option>
             <option value="abha">Abha</option>
         </select>
 
-        <input class="form-control" type="text" name="neighborhood" placeholder="Neighborhood" required>
-        <input class="form-control" type="text" name="postcode" placeholder="Postcode" required>
-        <textarea class="form-control" type="text" name="comments" placeholder="Additional information"></textarea>
+        <input class="form-control" type="text" name="neighborhood" placeholder="Neighborhood" minlength="4" required>
+        <input class="form-control" type="text" name="postcode" placeholder="Postcode" minlength="4" required>
+        <textarea class="form-control" type="text" name="comments" placeholder="Additional information" minlength="4" ></textarea>
 
 
         <button type="submit" class="btn btn-primary">Add adress</button>
     </form>
 </div>
-{% endblock %}
+{% endblock %} 

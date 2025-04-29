@@ -30,8 +30,7 @@ def add_bookmark(request:HttpRequest,dress_id):
             messages.warning(request, "The dress has been removed from the favorites list" ,"alert-warning")
     except Exception as e:
         print(e)
-    #return redirect("dresses:dress_detail",dress_id=dress_id)
-    return redirect("dress_detail",dress_id=dress_id)
+    return redirect("dresses:dress_detail",dress_id=dress_id)
 #عشان اعرض الفساتين المفضلة 
 #تحتاج تعديل الفيو و الصفحة نفسها 
 def favorites_list(request:HttpRequest ,user_id):

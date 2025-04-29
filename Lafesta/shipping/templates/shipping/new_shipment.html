@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container d-flex flex-column justify-content-center align-items-center py-5">
     <h2 class="mb-4">Create shipment</h2>
-    <form class="w-50 d-flex flex-column gap-3" action="{% url 'shipping:create_shipment'  rental.id  %}" method="POST" enctype="multipart/form-data">
+    <form class="w-50 d-flex flex-column gap-3" action="{% url 'shipping:create_shipment' rental.id  %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <label for="shipping_company">Shipping company</label>
         <input class="form-control" type="text" name="shipping_company" id="shipping_company"  required>

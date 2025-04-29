@@ -5,8 +5,9 @@ class ContactMessage(models.Model):
     email = models.EmailField()
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    reply = models.TextField(blank=True, null=True)
 
-    def _str_(self):
+    def __str__(self):
         return f"{self.name} - {self.email}"
 
 # Create your models here.

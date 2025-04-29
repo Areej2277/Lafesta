@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import user_passes_test
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
 from .models import ContactMessage
 from dresses.models import Dress  # ✅ Import the model from the dresses app
 
@@ -17,6 +18,7 @@ def contact_view(request):
             email=request.POST["email"],
             message=request.POST["message"]
         )
+        messages.success(request, "Your message has been sent successfully!")
         return redirect("main:contact")
     return render(request, "main/contact.html")
 
@@ -24,4 +26,25 @@ def contact_view(request):
 def messages_view(request):
     messages_list = ContactMessage.objects.all().order_by('-created_at')
     return render(request, 'main/messages.html', {"messages_list": messages_list})
+
+
+def reply_message_view(request, message_id):
+    if request.method == "POST":
+        message = get_object_or_404(ContactMessage, id=message_id)
+        reply = request.POST.get("reply")
+        message.reply = reply
+        message.save()
+        return redirect("main:messages")
+    
+@login_required
+def my_messages_view(request):
+    user_messages = ContactMessage.objects.filter(
+        email=request.user.email,
+        reply__isnull=False
+    ).order_by('-created_at')
+    return render(request, "main/my_messages.html", {"user_messages": user_messages})
+
+def privacy_policy_view(request):
+    return render(request, 'main/privacy_policy.html')
+
 # Create your views here.

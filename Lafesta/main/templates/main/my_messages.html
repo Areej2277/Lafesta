@@ -1,0 +1,45 @@
+{% extends 'main/base.html' %}
+{% block title %} My Messages {% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Your Messages</h2>
+        <p class="text-muted">Here you can view your previous messages and admin replies.</p>
+    </div>
+
+    {% if user_messages %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle shadow-sm border">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Message</th>
+                        <th scope="col">Reply from Admin</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for msg in user_messages %}
+                    <tr>
+                        <td>{{ msg.message }}</td>
+                        <td>
+                            {% if msg.reply %}
+                                <span class="text-success">{{ msg.reply }}</span>
+                            {% else %}
+                                <span class="text-muted fst-italic"><i class="fa-regular fa-clock me-1"></i>No reply yet</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ msg.created_at|date:"M d, Y H:i" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center mt-4">
+            <i class="fa-regular fa-envelope-open me-2"></i>
+            You haven't sent any messages yet.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

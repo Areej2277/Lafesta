@@ -23,7 +23,7 @@ class Profile(models.Model):
     profile_image = models.ImageField(upload_to="images/avatars/", default="images/avatars/avatar.webp")
     date_joined = models.DateTimeField(auto_now_add=True)
 
-    def _str_(self):
+    def __str__(self):
         return f"{self.user.username} - {self.get_user_type_display()}"
 
 # Create your models here.

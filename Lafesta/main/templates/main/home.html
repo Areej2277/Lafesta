@@ -16,7 +16,7 @@
         {% for dress in new_dresses %}
         <div class="col">
             <div class="card shadow-sm h-100 dress-card">
-                <img src="{{ dress.image.url }}" class="card-img-top" alt="{{ dress.name }}" style="height: 350px; width: 100%; object-fit: contain; background: #fff; padding: 10px;">
+                <img src="{{ dress.image.url }}" class="card-img-top dress-img" alt="{{ dress.name }}">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{ dress.name }}</h5>
                     <p class="card-text">{{ dress.description|truncatechars:80 }}</p>

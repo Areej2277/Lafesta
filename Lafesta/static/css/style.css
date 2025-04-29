@@ -1,3 +1,4 @@
+/* ========== Base Styles ========== */
 body {
     font-family: 'Segoe UI', sans-serif;
     font-size: 18px;
@@ -5,6 +6,7 @@ body {
     transition: background-color 0.4s, color 0.4s;
 }
 
+/* ========== Dark Mode ========== */
 .dark-mode {
     background-color: #121212;
     color: #f8f8f8;
@@ -15,7 +17,7 @@ body {
     background-color: #000 !important;
 }
 
-/* Background video */
+/* ========== Background Video ========== */
 #bgVideo {
     position: fixed;
     top: 0;
@@ -26,32 +28,35 @@ body {
     z-index: -1;
 }
 
-/* Logo */
+/* ========== Logo ========== */
 .navbar-brand img {
     width: 65px;
     height: auto; 
     transition: transform 0.3s;
 }
+
 .navbar-brand img:hover {
     transform: scale(1.1);
 }
 
-/* Top bar */
+/* ========== Navbar ========== */
 .navbar {
     background-color: rgba(0, 0, 0, 0.8) !important;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     transition: background-color 0.4s ease-in-out;
 }
 
-/* Navbar links */
+/* ========== Navbar Links ========== */
 .nav-link {
     color: #fff !important;
     transition: color 0.3s ease;
     position: relative;
 }
+
 .nav-link:hover {
     color: #FFD700 !important;
 }
+
 .nav-link::after {
     content: "";
     position: absolute;
@@ -62,32 +67,35 @@ body {
     width: 0;
     transition: width 0.3s ease;
 }
+
 .nav-link:hover::after {
     width: 100%;
 }
 
-/* Night mode button */
+/* ========== Theme Toggle Button ========== */
 .theme-toggle {
     color: #fff;
     cursor: pointer;
     font-size: 24px;
     transition: transform 0.3s ease;
 }
+
 .theme-toggle:hover {
     color: #FFD700;
     transform: rotate(20deg);
 }
 
-/* Profile picture */
+/* ========== Profile Image ========== */
 .navbar img.rounded-circle {
     border: 2px solid #FFD700;
     transition: box-shadow 0.3s;
 }
+
 .navbar img.rounded-circle:hover {
     box-shadow: 0 0 10px #FFD700;
 }
 
-/* Animation */
+/* ========== Fade Animation ========== */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -98,11 +106,12 @@ body {
         transform: translateY(0);
     }
 }
+
 .fade-in {
     animation: fadeInUp 1s ease-in-out;
 }
 
-/* Footer */
+/* ========== Footer ========== */
 .footer {
     font-size: 16px;
     background-color: #111;
@@ -115,19 +124,81 @@ body {
     color: #FFD700;
     transition: color 0.3s;
 }
+
 .footer i:hover {
     color: white;
 }
 
-/* Dresses Section in Home */
+/* ========== Privacy Link in Footer ========== */
+.privacy-link {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 15px;
+}
+
+.privacy-link:hover {
+    color: #FFD700;
+    text-decoration: underline;
+}
+
+/* ========== Gold Styled Links ========== */
+.custom-link {
+    color: #FFD700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.custom-link:hover {
+    color: #FFC107;
+    text-decoration: underline;
+}
+
+/* ========== Flash Messages ========== */
+.alert {
+    width: 70%;
+    margin: 20px auto 0 auto;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 12px 20px;
+    position: relative;
+    z-index: 999;
+}
+
+.alert-success {
+    background-color: #fff8e1;
+    border-left: 5px solid #FFD700;
+    color: #333;
+}
+
+.alert-danger,
+.alert-warning {
+    background-color: #fdecea;
+    border-left: 5px solid #dc3545;
+    color: #a94442;
+}
+
+.alert .btn-close {
+    top: 12px;
+    right: 15px;
+}
+
+/* ========== Dresses in Home Section ========== */
 .new-dresses .card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: none;
 }
+
+/* Dress card hover effect with gold border */
 .new-dresses .card:hover {
     transform: translateY(-8px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    border: 2px solid #FFD700; /* Add gold border */
 }
+
+/* Dress image settings */
 .new-dresses img {
     width: 100%;
     height: 250px;
@@ -136,20 +207,43 @@ body {
     border-top-right-radius: 0.5rem;
 }
 
-/* Mobile Responsive */
+.dress-img {
+    height: 350px;
+    width: 100%;
+    object-fit: contain;
+    background: #fff;
+    padding: 10px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.dress-card {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.dress-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border: 2px solid #FFD700; /* Gold border on hover */
+}
+
+/* ========== Responsive Styles ========== */
 @media (max-width: 768px) {
     .navbar-brand img {
         width: 50px;
     }
+
     .nav-link {
         font-size: 16px;
     }
+
     body {
         font-size: 16px;
     }
+
     .footer {
         font-size: 14px;
     }
+
     .new-dresses img {
         height: 200px;
     }

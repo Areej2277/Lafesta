@@ -1,0 +1,47 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Privacy Policy{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Privacy Policy</h1>
+        <p class="text-muted">Your trust is important to us. Read how we protect and use your information.</p>
+    </div>
+
+    <div class="mx-auto" style="max-width: 800px;">
+        <section class="mb-5">
+            <h4 class="fw-semibold mb-3">1. Information We Collect</h4>
+            <ul class="list-unstyled">
+                <li><i class="fa-solid fa-circle-check text-warning me-2"></i> Your name, email, and phone number upon registration</li>
+                <li><i class="fa-solid fa-circle-check text-warning me-2"></i> Dress rental history and preferences</li>
+                <li><i class="fa-solid fa-circle-check text-warning me-2"></i> Messages sent via our contact form</li>
+            </ul>
+        </section>
+
+        <section class="mb-5">
+            <h4 class="fw-semibold mb-3">2. How We Use Your Information</h4>
+            <ul class="list-unstyled">
+                <li><i class="fa-solid fa-circle-check text-warning me-2"></i> Manage your account and provide personalized experience</li>
+                <li><i class="fa-solid fa-circle-check text-warning me-2"></i> Process rental orders and manage deliveries</li>
+                <li><i class="fa-solid fa-circle-check text-warning me-2"></i> Respond to inquiries and provide customer support</li>
+            </ul>
+        </section>
+
+        <section class="mb-5">
+            <h4 class="fw-semibold mb-3">3. Sharing Your Information</h4>
+            <p>We do not share your personal information with third parties except when required by law.</p>
+        </section>
+
+        <section class="mb-5">
+            <h4 class="fw-semibold mb-3">4. Data Security</h4>
+            <p>We implement appropriate security measures to safeguard your data against unauthorized access.</p>
+        </section>
+
+        <section>
+            <h4 class="fw-semibold mb-3">5. Contact Us</h4>
+            <p>If you have questions about this policy, feel free to <a href="{% url 'main:contact' %}" class="custom-link">contact us</a>.</p>
+        </section>
+    </div>
+</div>
+{% endblock %}

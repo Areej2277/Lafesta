@@ -8,6 +8,8 @@ from .forms import RentalForm
 from .models import Rental
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from customer.models import Bookmark  # ✅ تأكدي تستوردين Bookmark فوق!
+
 
 
 
@@ -84,6 +86,9 @@ def my_dresses(request):
 def dress_detail(request, dress_id):
     dress = get_object_or_404(Dress, id=dress_id)
     reviews = dress.reviews.all().order_by('-created_at')  # عرض التقييمات من الأحدث إلى الأقدم
+
+    is_bookmarked = Bookmark.objects.filter(user=request.user, dress=dress).exists() if request.user.is_authenticated else False
+
 
     if request.method == 'POST':
         form = ReviewForm(request.POST)

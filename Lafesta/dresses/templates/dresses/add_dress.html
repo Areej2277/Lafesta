@@ -10,7 +10,7 @@
 <div class="container d-flex flex-column justify-content-center align-items-center py-5">
     <h2 class="mb-4">Add a New Dress</h2>
 
-    <form class="w-50 d-flex flex-column gap-3" method="POST" enctype="multipart/form-data" action="{% url 'add_dress' %}">
+    <form class="w-50 d-flex flex-column gap-3" method="POST" enctype="multipart/form-data" action="{% url 'dresses:add_dress' %}">
         {% csrf_token %}
 
         <!-- ✅ عرض الأخطاء إن وجدت -->

@@ -46,18 +46,18 @@
         {% if user.is_authenticated %}
           {% if user.profile.user_type == "customer" %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'my_dresses' %}">Explore Dresses</a>
+            <a class="nav-link" href="{% url 'dresses:my_dresses' %}">Explore Dresses</a>
           </li>
           <li class="nav-item">
-          <a class="nav-link" href="{% url 'my_orders' %}">My Orders</a>
+          <a class="nav-link" href="{% url 'dresses:my_orders' %}">My Orders</a>
           </li>
           <a class="nav-link" href="{% url 'customer:favorites_list' user_id=request.user.id %}">Favoritelist</a>
           {% elif user.profile.user_type == "owner" %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'my_dresses' %}">My Dresses</a>
+            <a class="nav-link" href="{% url 'dresses:my_dresses' %}">My Dresses</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'rental_requests' %}">Rental Requests</a>
+            <a class="nav-link" href="{% url 'dresses:rental_requests' %}">Rental Requests</a>
         </li>
                   {% endif %}
             

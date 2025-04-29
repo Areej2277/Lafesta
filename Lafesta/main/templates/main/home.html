@@ -21,8 +21,8 @@
                     <h5 class="card-title">{{ dress.name }}</h5>
                     <p class="card-text">{{ dress.description|truncatechars:80 }}</p>
                     <div class="mt-auto d-flex justify-content-between">
-                        <a href="{% url 'dress_detail' dress.id %}" class="btn btn-sm btn-outline-primary">Details</a>
-                        <a href="{% url 'rent_dress' dress.id %}" class="btn btn-sm btn-dark">Rent Now</a>
+                        <a href="{% url 'dresses:dress_detail' dress.id %}" class="btn btn-sm btn-outline-primary">Details</a>
+                        <a href="{% url 'dresses:rent_dress' dress.id %}" class="btn btn-sm btn-dark">Rent Now</a>
                     </div>
                 </div>
             </div>

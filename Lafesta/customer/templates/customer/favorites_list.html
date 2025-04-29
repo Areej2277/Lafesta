@@ -17,7 +17,8 @@
                             </div>
                             <h5 class="card-title">{{bookmark.dress.name}}</h5>
                             <div class="d-flex justify-content-between">
-                                <a href="{% url 'dresses:dress_detail' bookmark.dress.id %}" class="btn btn-sm btn-dark">More details </a>
+                                <!--<a href="{% url 'dresses:dress_detail' bookmark.dress.id %}" class="btn btn-sm btn-dark">More details </a>-->
+                                <a href="{% url 'dress_detail' bookmark.dress.id %}" class="btn btn-sm btn-dark">More details </a>
                             </div>
                         </div>
                     </div>

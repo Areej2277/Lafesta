@@ -1,0 +1,22 @@
+{% extends 'main/base.html'%}
+{% block title %} Create pyment {% endblock %}
+{% load static %}
+
+{% block content %}
+    <div class="container d-flex flex-column justify-content-center align-items-center py-5">
+        <h2 class="mb-4">Create pyment</h2>
+        <form class="w-50 d-flex flex-column gap-3" action="{% url 'shipping:create_payment' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="card_number">Card number </label>
+            <input class="form-control" type="text" name="card_number" id="card_number" minlength="16" >
+            <label for="card_holder_name">Card holder name</label>
+            <input class="form-control" type="text" name="card_holder_name" id="card_holder_name" >
+            <label for="expiry_date">Expiry date</label>
+            <input class="form-control" type="text" name="expiry_date" id="expiry_date"  >
+            <label for="cvv">CVV</label>
+            <input class="form-control" type="text" name="cvv" id="cvv" minlength="3" >
+
+            <button type="submit" class="btn btn-dark">Pay</button>
+        </form>
+    </div>
+{% endblock %}

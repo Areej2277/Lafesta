@@ -15,8 +15,8 @@
                         <p class="card-text">{{adress.postcode}}</p>
                         <p class="card-text">{{adress.comments}}</p>
                         <div class="d-flex justify-content-between">
-                            <a href="#" class="btn btn-sm btn-dark">Update</a>
-                            <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                            <a href="{% url 'customer:update_adress' adress.id %}"class="btn btn-sm btn-dark">Update</a>
+                            <a href="{% url 'customer:delete_adress' adress.id %}" class="btn btn-sm btn-danger">Delete</a>
                         </div>
                     </div>
                 </div>

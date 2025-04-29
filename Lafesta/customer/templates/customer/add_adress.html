@@ -1,23 +1,30 @@
 {% extends 'main/base.html'%}
-{% block title %} Add adress {% endblock %}
+{% block title %} Shipping Information {% endblock %}
 {% load static %}
 
 {% block content %}
 <div class="container d-flex flex-column justify-content-center align-items-center py-5">
-    <h2 class="mb-4">Add adress</h2>
+    <h2 class="mb-4">Shipping Information</h2>
     <form class="w-50 d-flex flex-column gap-3" action="{% url 'customer:add_adress' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <select name="city" class="form-select">
-            <option disabled >Available cities</option>
+        <label for="city">Available cities</label>
+        <select name="city"  id="city" class="form-select" >
             <option value="riyadh" >Riyadh</option>
             <option value="jeddah" >Jeddah</option>
             <option value="dammam">Dammam</option>
             <option value="abha">Abha</option>
         </select>
-
-        <input class="form-control" type="text" name="neighborhood" placeholder="Neighborhood" minlength="4" required>
-        <input class="form-control" type="text" name="postcode" placeholder="Postcode" minlength="4" required>
-        <textarea class="form-control" type="text" name="comments" placeholder="Additional information" minlength="4" ></textarea>
+        <label for="neighborhood">Neighborhood</label>
+        <input class="form-control" type="text" name="neighborhood" id="neighborhood" minlength="4" required>
+        <label for="postcode">Postcode</label>
+        <input class="form-control" type="text" name="postcode" id="postcode"  minlength="4" required>
+        <label for="shipping_company">Shipping company</label>
+        <select name="shipping_company"  id="shipping_company" class="form-select" >
+            <option value="Aramex" >Aramex</option>
+            <option value="SMSA Express" >SMSA Express</option>
+        </select>
+        <label for="comments">Comments</label>
+        <textarea class="form-control" type="text" name="comments" id="comments"   minlength="4" ></textarea>
 
 
         <button type="submit" class="btn btn-dark">Add adress</button>

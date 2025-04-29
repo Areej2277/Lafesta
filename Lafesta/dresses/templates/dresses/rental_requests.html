@@ -47,8 +47,8 @@
                             <td>
                                 {% if rental.status == 'pending' %}
                                     <div class="d-flex flex-column gap-1">
-                                        <a href="{% url 'rental_action' rental.id 'confirm' %}" class="btn btn-success btn-sm">Confirm</a>
-                                        <a href="{% url 'rental_action' rental.id 'cancel' %}" class="btn btn-danger btn-sm">Cancel</a>
+                                        <a href="{% url 'dresses:rental_action' rental.id 'confirm' %}" class="btn btn-success btn-sm">Confirm</a>
+                                        <a href="{% url 'dresses:rental_action' rental.id 'cancel' %}" class="btn btn-danger btn-sm">Cancel</a>
                                     </div>
                                 {% else %}
                                     <span class="text-muted">No Actions</span>

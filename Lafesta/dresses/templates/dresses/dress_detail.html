@@ -42,9 +42,19 @@
 
                     <!-- ❤️ زر المفضلة -->
                     <div class="mb-3">
-                        <button class="border-0 bg-transparent" style="font-size: 1.8rem; color: #dc3545;" title="Add to Favorites" onclick="toggleFavorite(this)">
-                            <i class="bi bi-heart"></i>
-                        </button>
+                        <form action="{% url 'customer:add_bookmark' dress.id %}" method="POST" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="border-0 bg-transparent" style="font-size: 1.8rem; color: #dc3545;" title="Add to Favorites">
+                                {% if is_bookmarked %}
+                                    <i class="bi bi-heart-fill"></i> {# ❤️ الفستان مضاف بالمفضلة #}
+                                {% else %}
+                                    <i class="bi bi-heart"></i> {# 🤍 الفستان مو مضاف #}
+                                {% endif %}
+                            </button>
+                        </form>
+                        
+                        
+                        
                         <div id="favorite-message" class="mt-2" style="display: none;"></div>
                     </div>
 
@@ -102,15 +112,15 @@
                     {% if request.user.is_authenticated %}
                         {% if request.user == dress.owner %}
                             <div class="mt-4 d-flex gap-2">
-                                <a href="{% url 'edit_dress' dress.id %}" class="btn btn-primary">Edit</a>
-                                <form action="{% url 'delete_dress' dress.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this dress?');">
+                                <a href="{% url 'dresses:edit_dress' dress.id %}" class="btn btn-primary">Edit</a>
+                                <form action="{% url 'dresses:delete_dress' dress.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this dress?');">
                                     {% csrf_token %}
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </div>
                         {% elif request.user.profile.user_type == 'customer' and dress.status == 'available' %}
                             <div class="mt-4">
-                                <a href="{% url 'rent_dress' dress.id %}" class="btn btn-outline-success">Rent this Dress</a>
+                                <a href="{% url 'dresses:rent_dress' dress.id %}" class="btn btn-outline-success">Rent this Dress</a>
                             </div>
                         {% endif %}
                     {% endif %}

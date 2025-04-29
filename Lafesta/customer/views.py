@@ -4,7 +4,7 @@ from django.contrib import messages
 from .models import Bookmark,Adress
 from dresses.models import Dress
 #from .forms import AdressForm
-from django.contrib.auth.decorators import login_required
+#from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 #خلي ايمان تضيف هذي السطور عندها في الفيو الديتيلز حقت الفساتين عشان يضبط الفستان 
@@ -30,8 +30,8 @@ def add_bookmark(request:HttpRequest,dress_id):
             messages.warning(request, "The dress has been removed from the favorites list" ,"alert-warning")
     except Exception as e:
         print(e)
-
-    return redirect("dresses:dress_detail",dress_id=dress_id)
+    #return redirect("dresses:dress_detail",dress_id=dress_id)
+    return redirect("dress_detail",dress_id=dress_id)
 #عشان اعرض الفساتين المفضلة 
 #تحتاج تعديل الفيو و الصفحة نفسها 
 def favorites_list(request:HttpRequest ,user_id):
@@ -44,10 +44,10 @@ def add_adress(request:HttpRequest):
         #if adress_Form.is_valid():
             #adress_Form.instance.customer = request.user
             #adress_Form.save()
-        new_adress=Adress(city=request.POST["city"], neighborhood=request.POST["neighborhood"],postcode=request.POST["postcode"],comments=request.POST["comments"],user=request.user)
+        new_adress=Adress(city=request.POST["city"], neighborhood=request.POST["neighborhood"],postcode=request.POST["postcode"],shipping_company=request.POST["shipping_company"],comments=request.POST["comments"],user=request.user)
         new_adress.save()
             #لا تنسي تغيري الري دايركت لصفحة الشحن بعد ما تسويها
-        return redirect('main:home')
+        return redirect('shipping:create_payment')
         
         #else:
             #print("not falid form")

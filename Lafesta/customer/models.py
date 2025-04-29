@@ -13,6 +13,10 @@ class Bookmark(models.Model):
 
 class Adress(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    class Companychoices(models.TextChoices):
+        company1="Aramex","Aramex"
+        company2="SMSA Express","SMSA Express"
+    shipping_company=models.CharField(choices=Companychoices.choices ,max_length=100 ,default="Aramex")
     class Citychoices(models.TextChoices):
         city1="riyadh","Riyadh"
         city2="jeddah","Jeddah"
@@ -32,7 +36,6 @@ class Adress(models.Model):
 #           Status1='Paid','Paid'
 #           Status2='Processing','Processing'
 #           Status3='Refunded','Refunded'
-#           Status4='Refunded','Refunded'
 #           
 #     status=models.CharField(choices=StatusChoices.choices)
 

@@ -1,0 +1,26 @@
+{% extends 'main/base.html'%}
+{% block title %} Payment confirmation{% endblock %}
+{% load static %}
+
+{% block content %}
+<section class="container my-5 justify-content-center">
+    <h1 class="mb-4">Payment confirmation</h1>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="card-title">Payment executed successfully🎉</h6>
+                    <p class="card-text">Thank you for using Lafeste</p>
+                    <p class="card-text">Order Number "{{rental_request.id}}"</p>
+                    <p class="card-text">You can track your order from the button below </p>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'dresses:my_orders' %}"class="btn btn-sm btn-dark">Order Tracking </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

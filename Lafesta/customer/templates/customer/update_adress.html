@@ -7,19 +7,22 @@
         <h2 class="mb-4">Add adress</h2>
         <form class="w-50 d-flex flex-column gap-3" action="{% url 'customer:update_adress' adress.id %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <select name="city" class="form-select">
-                <option disabled >Available cities</option>
+            <label for="city">Available cities</label>
+            <select name="city"  id="city" class="form-select" >
                 <option value="riyadh" {% if "riyadh" in adress.city %} selected {% endif %} >Riyadh</option>
                 <option value="jeddah" {% if "jeddah" in adress.city %} selected {% endif %}>Jeddah</option>
                 <option value="dammam"{% if "dammam" in adress.city %} selected {% endif %}>Dammam</option>
                 <option value="abha" {% if "abha" in adress.city %} selected {% endif %}>Abha</option>
             </select>
-            <input class="form-control" type="text" name="neighborhood" value="{{adress.neighborhood}}">
-            <input class="form-control" type="text" name="postcode" value="{{adress.postcode}}" >
-            <textarea class="form-control" type="text" name="comments">{{adress.comments}}</textarea>
+            <label for="neighborhood">Neighborhood</label>
+            <input class="form-control" type="text" name="neighborhood" id="neighborhood" value="{{adress.neighborhood}}">
+            <label for="postcode">Postcode</label>
+            <input class="form-control" type="text" name="postcode" id="postcode" value="{{adress.postcode}}" >
+            <label for="comments">Comments</label>
+            <textarea class="form-control" type="text" name="comments" id="comments">{{adress.comments}}</textarea>
 
 
-            <button type="submit" class="btn btn-primary">Update adress</button>
+            <button type="submit" class="btn btn-dark">Update adress</button>
         </form>
     </div>
 {% endblock %}

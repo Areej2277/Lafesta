@@ -25,7 +25,9 @@ class Shipment(models.Model):
 
 
 class  Payment (models.Model):
-    request= models.ForeignKey(Rental, on_delete=models.CASCADE)
+   # request= models.ForeignKey(Rental, on_delete=models.CASCADE)
+    request = models.ForeignKey(Rental, on_delete=models.CASCADE, related_name='payment')#هذا التعديل يسمح لنا نستدعي payment من اي مكان 
+
     created_at=models.DateTimeField(auto_now_add=True)
     refID=models.IntegerField()
     #بعد ما يتم الربط بالمنصات لا تنسي تحذفي معلومات البطاقة حقت اليوزر

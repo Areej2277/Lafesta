@@ -1,0 +1,43 @@
+{% extends 'main/base.html' %}
+{% block title %} Manage Shipments {% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4 text-center">Manage Shipments</h2>
+
+    {% if shipments %}
+        <div class="table-responsive">
+            <table class="table table-bordered text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Shipping Company</th>
+                        <th>Pickup Info</th>
+                        <th>Expected Delivery</th>
+                        <th>Current Status</th>
+                        <th>Update Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for shipment in shipments %}
+                        <tr>
+                            <td>{{ shipment.request.id }}</td>
+                            <td>{{ shipment.shipping_company }}</td>
+                            <td>{{ shipment.pickup_information }}</td>
+                            <td>{{ shipment.expected_delivery_date|date:"F j, Y" }}</td>
+                            <td>
+                                <span class="badge bg-info text-dark">{{ shipment.status }}</span>
+                            </td>
+                            <td>
+                                <a href="{% url 'shipping:update_shipment_status' shipment.id %}" class="btn btn-sm btn-primary">Update Status</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-center text-muted">No shipments available yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

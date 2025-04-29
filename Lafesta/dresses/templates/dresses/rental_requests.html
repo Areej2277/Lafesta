@@ -17,7 +17,8 @@
                         <th>Total Price</th>
                         <th>Status</th>
                         <th>Requested At</th>
-                        <th>Actions</th> {# ✅ عمود جديد للأكشنات #}
+                        <th>Payment Status</th> {# ✅ عمود لحالة الدفع #}
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,12 +45,23 @@
                                 </span>
                             </td>
                             <td>{{ rental.created_at|date:"F j, Y, H:i" }}</td>
+
+                            <td>
+                                {% if rental.payment.status == 'Paid' %}
+                                    <span class="badge bg-success">Paid</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Unpaid</span>
+                                {% endif %}
+                            </td>
+
                             <td>
                                 {% if rental.status == 'pending' %}
                                     <div class="d-flex flex-column gap-1">
                                         <a href="{% url 'dresses:rental_action' rental.id 'confirm' %}" class="btn btn-success btn-sm">Confirm</a>
                                         <a href="{% url 'dresses:rental_action' rental.id 'cancel' %}" class="btn btn-danger btn-sm">Cancel</a>
                                     </div>
+                                {% elif rental.status == 'confirmed' %}
+                                    <a href="{% url 'shipping:create_shipment' rental.id %}" class="btn btn-primary btn-sm">Create Shipment</a>
                                 {% else %}
                                     <span class="text-muted">No Actions</span>
                                 {% endif %}

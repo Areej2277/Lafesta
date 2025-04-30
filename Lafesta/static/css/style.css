@@ -30,7 +30,7 @@ body {
 
 /* ========== Logo ========== */
 .navbar-brand img {
-    width: 65px;
+    width: 60px;
     height: auto; 
     transition: transform 0.3s;
 }

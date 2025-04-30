@@ -3,8 +3,11 @@ from django.http import HttpRequest, HttpResponse
 from .models import Shipment ,Payment
 from dresses.models import Rental
 from customer.models import Adress
+from django.contrib import messages
+
 import random
 from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -21,18 +24,48 @@ def create_payment(request:HttpRequest,request_id):
     return render(request ,'shipping/new_payment.html' ,{'rental': rental_request})
 
 
+# def create_shipment(request:HttpRequest ,request_id):
+#     rental_request=Rental.objects.get(pk=request_id)
+#     adress = Adress.objects.filter(user=rental_request.customer).first()
+
+#     if request.method=="POST":
+#         new_Shipment=Shipment(shipping_company=request.POST["shipping_company"], pickup_information=request.POST["pickup_information"],expected_delivery_date=request.POST["expected_delivery_date"],request=rental_request,adress=adress)
+#         new_Shipment.save()
+        
+#         return redirect('dresses:rental_requests')
+        
+        
+#     return render(request ,'shipping/new_shipment.html',{'rental': rental_request})
+
+@login_required
 def create_shipment(request:HttpRequest ,request_id):
-    rental_request=Rental.objects.get(pk=request_id)
+    rental_request = Rental.objects.get(pk=request_id)
+
+    # ✅ تأكد أن المستخدم هو مالك الفستان
+    if request.user != rental_request.dress.owner:
+        from django.contrib import messages
+        messages.error(request, "You are not authorized to create a shipment for this dress.")
+        return redirect('main:home')
+
+    # ✅ جلب عنوان الكاستمر
     adress = Adress.objects.filter(user=rental_request.customer).first()
 
-    if request.method=="POST":
-        new_Shipment=Shipment(shipping_company=request.POST["shipping_company"], pickup_information=request.POST["pickup_information"],expected_delivery_date=request.POST["expected_delivery_date"],request=rental_request,adress=adress)
+    if request.method == "POST":
+        new_Shipment = Shipment(
+            shipping_company=request.POST["shipping_company"],
+            pickup_information=request.POST["pickup_information"],
+            expected_delivery_date=request.POST["expected_delivery_date"],
+            request=rental_request,
+            adress=adress
+        )
         new_Shipment.save()
-        
-        return redirect('dresses:rental_requests')
-        
-        
-    return render(request ,'shipping/new_shipment.html',{'rental': rental_request})
+
+        # ✅ بعد الإنشاء يروح لصفحة إدارة الشحنات
+        return redirect('shipping:manage_shipments')
+
+    return render(request, 'shipping/new_shipment.html', {'rental': rental_request})
+
+
 
 def Payment_confirmation(request:HttpRequest, payment_id ,rental_request_id):
     
@@ -62,3 +95,17 @@ def manage_shipments(request):
     shipments = Shipment.objects.filter(request__dress__owner=user).order_by('-created_at')
 
     return render(request, 'shipping/manage_shipments.html', {'shipments': shipments})
+
+
+@login_required
+def update_shipment_status(request, shipment_id):
+    shipment = Shipment.objects.get(id=shipment_id)
+
+    if request.method == "POST":
+        new_status = request.POST.get("status")
+        shipment.status = new_status
+        shipment.save()
+        messages.success(request, "Shipment status updated successfully.")
+        return redirect('shipping:manage_shipments')
+
+    return render(request, 'shipping/update_shipment_status.html', {'shipment': shipment})

@@ -6,7 +6,7 @@ from django.db import IntegrityError, transaction
 from django.contrib import messages
 from .models import Profile
 
-
+# User Registration View
 def signup_view(request: HttpRequest):
     if request.method == "POST":
         try:
@@ -18,7 +18,7 @@ def signup_view(request: HttpRequest):
                     first_name=request.POST["first_name"],
                     last_name=request.POST["last_name"]
                 )
-
+             # Create a corresponding profile for the user
                 profile = Profile(
                     user=new_user,
                     phone_number=request.POST["phone_number"],
@@ -39,7 +39,7 @@ def signup_view(request: HttpRequest):
 
     return render(request, "users/signup.html")
 
-
+# User Login View
 def signin_view(request: HttpRequest):
     if request.method == "POST":
         user = authenticate(
@@ -57,18 +57,18 @@ def signin_view(request: HttpRequest):
 
     return render(request, "users/signin.html")
 
-
+# User Logout View
 def logout_view(request: HttpRequest):
     logout(request)
     messages.success(request, "You have been logged out.")
     return redirect("users:signin")
 
-
+# View for showing a user's public profile
 def profile_view(request: HttpRequest, username: str):
     user = get_object_or_404(User, username=username)
     return render(request, "users/profile.html", {"user": user})
 
-
+# Profile Update View for authenticated users
 def update_profile_view(request: HttpRequest):
     if not request.user.is_authenticated:
         messages.warning(request, "You must be signed in to edit your profile.")

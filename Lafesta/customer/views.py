@@ -2,7 +2,7 @@ from django.shortcuts import render ,redirect
 from django.http import HttpRequest, HttpResponse
 from django.contrib import messages
 from .models import Bookmark,Adress
-from dresses.models import Dress
+from dresses.models import Dress,Rental
 #from .forms import AdressForm
 #from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -37,21 +37,21 @@ def favorites_list(request:HttpRequest ,user_id):
 
     return render(request ,'customer/favorites_list.html')
 
-def add_adress(request:HttpRequest):
+def add_adress(request:HttpRequest ,rental_id):
+    rental = Rental.objects.get(id=rental_id)
     if request.method=="POST":
         #adress_Form = AdressForm(request.POST)
         #if adress_Form.is_valid():
             #adress_Form.instance.customer = request.user
             #adress_Form.save()
-        new_adress=Adress(city=request.POST["city"], neighborhood=request.POST["neighborhood"],postcode=request.POST["postcode"],shipping_company=request.POST["shipping_company"],comments=request.POST["comments"],user=request.user)
+        new_adress=Adress(city=request.POST["city"], neighborhood=request.POST["neighborhood"],postcode=request.POST["postcode"],shipping_company=request.POST["shipping_company"],comments=request.POST["comments"],user=request.user,rental=rental)
         new_adress.save()
-            #لا تنسي تغيري الري دايركت لصفحة الشحن بعد ما تسويها
-        return redirect('shipping:create_payment')
-        
+
+        return redirect('shipping:create_payment',request_id=rental.id)
         #else:
             #print("not falid form")
         
-    return render(request ,'customer/add_adress.html')
+    return render(request ,'customer/add_adress.html', {'rental': rental})
 
 #يحتاج تعديل الصفحة و الفيو 
 def my_adress(request:HttpRequest):

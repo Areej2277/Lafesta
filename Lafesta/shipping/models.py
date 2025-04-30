@@ -2,10 +2,11 @@ from django.db import models
 from dresses.models import Rental
 from customer.models import Adress
 
+
 # Create your models here.
 class Shipment(models.Model):
     adress=models.ForeignKey(Adress, on_delete=models.CASCADE)
-    request= models.ForeignKey(Rental, on_delete=models.CASCADE)
+    rental= models.ForeignKey(Rental, on_delete=models.CASCADE)
     shipping_company=models.CharField(max_length=100)
     pickup_information=models.TextField()
     expected_delivery_date=models.DateTimeField()
@@ -23,10 +24,12 @@ class Shipment(models.Model):
         
     status=models.CharField(choices=Statuschoices.choices ,max_length=100 ,default="Shipment Created")
 
+    def __str__(self) -> str:
+        return self.shipping_company
 
 class  Payment (models.Model):
    # request= models.ForeignKey(Rental, on_delete=models.CASCADE)
-    request = models.ForeignKey(Rental, on_delete=models.CASCADE, related_name='payment')#هذا التعديل يسمح لنا نستدعي payment من اي مكان 
+    rental = models.ForeignKey(Rental, on_delete=models.CASCADE, related_name='payment')#هذا التعديل يسمح لنا نستدعي payment من اي مكان 
 
     created_at=models.DateTimeField(auto_now_add=True)
     refID=models.IntegerField()
@@ -40,3 +43,5 @@ class  Payment (models.Model):
         Status2='Processing','Processing'
         Status3='Refunded','Refunded'
     status=models.CharField(choices=StatusChoices.choices ,max_length=100)
+    def __int__(self)->int:
+        return self.refID

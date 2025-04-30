@@ -13,7 +13,7 @@ def create_payment(request:HttpRequest,request_id):
     rental_request =Rental.objects.get(pk=request_id)
 
     if request.method=="POST":
-        new_payment=Payment(card_number=request.POST["card_number"], card_holder_name=request.POST["card_holder_name"],expiry_date=request.POST["expiry_date"],cvv=request.POST["cvv"],refID=random.randint(100000, 999999), tatus='Paid',request=rental_request)
+        new_payment=Payment(card_number=request.POST["card_number"], card_holder_name=request.POST["card_holder_name"],expiry_date=request.POST["expiry_date"],cvv=request.POST["cvv"],refID=random.randint(100000, 999999), status='Paid',request=rental_request)
         new_payment.save()
         # لو فيه حقل rental: rental=rental_request
         return redirect('shipping:Payment_confirmation', payment_id=new_payment.id, rental_request_id=rental_request.id)

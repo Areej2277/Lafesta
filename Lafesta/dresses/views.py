@@ -133,7 +133,9 @@ def rent_dress(request, dress_id):
             rental.save()
             messages.success(request, 'Rental request submitted successfully!')  # ✅ رسالة النجاح
            # return redirect('dress_detail', dress_id=dress.id)
-            return redirect('customer:add_adress', dress_id=dress.id)
+            #return redirect('customer:add_adress', dress_id=dress.id)
+            #تم التعديل لتمرير الاي دي الخاه بالريكويست بدل من الاي دي الخاص بالفستان الى صفحة العنوان 
+            return redirect('customer:add_adress', request_id=rental.id)
 
     else:
         form = RentalForm()

@@ -28,6 +28,7 @@ class Adress(models.Model):
     comments=models.TextField()
 
 
+
 # class  Payment (models.Model):
 #     request= models.ForeignKey(Rentalrequest, on_delete=models.CASCADE)
 #     created_at=models.DateTimeField(auto_now_add=True)

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from dresses.models import Dress
+from dresses.models import Dress, Rental
+
 #from اسم الاب حق الفساتين import اسم المودل حق الفساتين 
 #سوي امبورت لكلاس الفساتين 
 
@@ -11,8 +12,12 @@ class Bookmark(models.Model):
     dress = models.ForeignKey(Dress, on_delete=models.CASCADE)
     created_at=models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return f"{self.user.username}"
+
 class Adress(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    rental=models.OneToOneField(Rental, on_delete=models.CASCADE)
     class Companychoices(models.TextChoices):
         company1="Aramex","Aramex"
         company2="SMSA Express","SMSA Express"
@@ -26,6 +31,9 @@ class Adress(models.Model):
     neighborhood=models.CharField(max_length=100)
     postcode=models.IntegerField()
     comments=models.TextField()
+    def __str__(self) -> str:
+        return f"{self.user.username} - {self.city}, {self.neighborhood}, {self.postcode}"
+
 
 
 

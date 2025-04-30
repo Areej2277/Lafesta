@@ -127,13 +127,13 @@ def rent_dress(request, dress_id):
     if request.method == 'POST':
         form = RentalForm(request.POST)
         if form.is_valid():
-            rental = form.save(commit=False)
+            rental = form.save(commit=False) 
             rental.dress = dress
             rental.customer = request.user
             rental.save()
             messages.success(request, 'Rental request submitted successfully!')  # ✅ رسالة النجاح
            # return redirect('dress_detail', dress_id=dress.id)
-            return redirect('dresses:dress_detail', dress_id=dress.id)
+            return redirect('customer:add_adress', dress_id=dress.id)
 
     else:
         form = RentalForm()

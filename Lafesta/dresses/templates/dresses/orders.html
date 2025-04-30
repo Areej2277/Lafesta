@@ -16,6 +16,7 @@
                         <th>Total Price</th>
                         <th>Status</th>
                         <th>Requested At</th>
+                        <th>Tracking</th>  {# ✅ عمود جديد للتتبع #}
                     </tr>
                 </thead>
                 <tbody>
@@ -41,6 +42,9 @@
                                 </span>
                             </td>
                             <td>{{ rental.created_at|date:"F j, Y, H:i" }}</td>
+                            <td>
+                                <a href="{% url 'shipping:track_shipment' rental.id %}" class="btn btn-sm btn-outline-primary">Track</a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

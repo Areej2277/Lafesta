@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+{% block title %} Track Shipment {% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4 text-center">Track Shipment for Order #{{ rental.id }}</h2>
+
+    {% if shipment %}
+        <ul class="list-group w-50 mx-auto">
+            <li class="list-group-item"><strong>Shipping Company:</strong> {{ shipment.shipping_company }}</li>
+            <li class="list-group-item"><strong>Pickup Info:</strong> {{ shipment.pickup_information }}</li>
+            <li class="list-group-item"><strong>Expected Delivery:</strong> {{ shipment.expected_delivery_date|date:"F j, Y" }}</li>
+            <li class="list-group-item"><strong>Status:</strong> 
+                <span class="badge bg-info text-dark">{{ shipment.status }}</span>
+            </li>
+        </ul>
+    {% else %}
+        <p class="text-center text-muted">No shipment has been created for this order yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

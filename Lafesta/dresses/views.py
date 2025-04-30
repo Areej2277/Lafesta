@@ -21,7 +21,9 @@ def add_dress(request):
         if form.is_valid():
             form.instance.owner = request.user  # ✅ هنا الربط
             form.save()
-            return redirect('my_dresses')
+            #return redirect('my_dresses')
+            return redirect('dresses:my_dresses')
+
     else:
         form = DressForm()
     
@@ -30,13 +32,17 @@ def add_dress(request):
 def edit_dress(request, dress_id):
     dress = get_object_or_404(Dress, id=dress_id)
     if request.user != dress.owner:
-        return redirect('my_dresses')
+       # return redirect('my_dresses')
+        return redirect('dresses:my_dresses')
+
 
     if request.method == 'POST':
         form = DressForm(request.POST, request.FILES, instance=dress)
         if form.is_valid():
             form.save()
-            return redirect('dress_detail', dress_id=dress.id)
+           # return redirect('dress_detail', dress_id=dress.id)
+            return redirect('dresses:dress_detail', dress_id=dress.id)
+
     else:
         form = DressForm(instance=dress)
 
@@ -46,7 +52,9 @@ def delete_dress(request, dress_id):
     dress = get_object_or_404(Dress, id=dress_id)
     if request.user == dress.owner:
         dress.delete()
-    return redirect('my_dresses')
+   # return redirect('my_dresses')
+    return redirect('dresses:my_dresses')
+
 
 
 
@@ -97,7 +105,9 @@ def dress_detail(request, dress_id):
             review.dress = dress
             review.user = request.user
             review.save()
-            return redirect('dress_detail', dress_id=dress.id)
+           # return redirect('dress_detail', dress_id=dress.id)
+            return redirect('dresses:dress_detail', dress_id=dress.id)
+
     else:
         form = ReviewForm()
 
@@ -105,6 +115,8 @@ def dress_detail(request, dress_id):
         'dress': dress,
         'form': form,
         'reviews': reviews,
+        'is_bookmarked': is_bookmarked,  # ✅ أضف هذا السطر
+
     })
 
 
@@ -120,7 +132,9 @@ def rent_dress(request, dress_id):
             rental.customer = request.user
             rental.save()
             messages.success(request, 'Rental request submitted successfully!')  # ✅ رسالة النجاح
-            return redirect('dress_detail', dress_id=dress.id)
+           # return redirect('dress_detail', dress_id=dress.id)
+            return redirect('dresses:dress_detail', dress_id=dress.id)
+
     else:
         form = RentalForm()
 
@@ -155,7 +169,9 @@ def rental_action(request, rental_id, action):
         messages.error(request, 'Rental request cancelled. ❌')
 
     rental.save()
-    return redirect('rental_requests')
+   # return redirect('rental_requests')
+    return redirect('dresses:rental_requests')
+
 
 
 @login_required

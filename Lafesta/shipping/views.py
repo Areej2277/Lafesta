@@ -4,6 +4,8 @@ from .models import Shipment ,Payment
 from dresses.models import Rental
 from customer.models import Adress
 import random
+from django.contrib.auth.decorators import login_required
+
 
 
 # Create your views here.
@@ -38,3 +40,25 @@ def Payment_confirmation(request:HttpRequest, payment_id ,rental_request_id):
     rental_request= Rental.objects.get(id=rental_request_id)
 
     return render(request ,'shipping/Payment_confirmation.html',{'payment':payment},{'rental': rental_request})
+
+
+def track_shipment(request: HttpRequest, rental_id):
+    rental = Rental.objects.get(id=rental_id, customer=request.user)
+
+    shipment = Shipment.objects.filter(request=rental).first()
+
+    return render(request, 'shipping/track_shipment.html', {
+        'rental': rental,
+        'shipment': shipment
+    })
+
+
+
+@login_required
+def manage_shipments(request):
+    user = request.user
+
+    # جلب جميع الشحنات المرتبطة بفستاتين المالك
+    shipments = Shipment.objects.filter(request__dress__owner=user).order_by('-created_at')
+
+    return render(request, 'shipping/manage_shipments.html', {'shipments': shipments})

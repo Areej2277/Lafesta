@@ -47,7 +47,7 @@ def add_adress(request:HttpRequest ,rental_id):
         new_adress=Adress(city=request.POST["city"], neighborhood=request.POST["neighborhood"],postcode=request.POST["postcode"],shipping_company=request.POST["shipping_company"],comments=request.POST["comments"],user=request.user,rental=rental)
         new_adress.save()
         messages.success(request, "Address added successfully!")
-        return redirect('shipping:create_payment',request_id=rental.id)
+        return redirect('shipping:create_payment',rental_id=rental.id)
     else:
         messages.error(request, "Please fill in all required fields.")
         #else:

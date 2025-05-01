@@ -70,11 +70,11 @@ def create_shipment(request:HttpRequest ,request_id):
 
     return render(request, 'shipping/new_shipment.html', {'rental': rental_request})
 
-def payment_confirmation(request: HttpRequest, payment_id, rental_request_id):
+def payment_confirmation(request: HttpRequest, payment_id, rental_id):
     payment = Payment.objects.get(id=payment_id)
-    rental_request = Rental.objects.get(id=rental_request_id)
+    rental = Rental.objects.get(id=rental_id)
     
-    return render(request, 'shipping/payment_confirmation.html', {'payment': payment,'rental': rental_request})
+    return render(request, 'shipping/payment_confirmation.html', {'payment': payment,'rental': rental})
 
 
 

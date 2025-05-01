@@ -3,6 +3,8 @@ from django.http import HttpRequest, HttpResponse
 from django.contrib import messages
 from .models import Bookmark,Adress
 from dresses.models import Dress,Rental
+from django.shortcuts import get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist
 #from .forms import AdressForm
 #from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -49,11 +51,30 @@ def add_adress(request:HttpRequest ,rental_id):
         messages.success(request, "Address added successfully!")
         return redirect('shipping:create_payment',rental_id=rental.id)
     else:
-        messages.error(request, "Please fill in all required fields.")
+        messages.warning(request, "Please fill in all required fields.")
         #else:
             #print("not falid form")
         
     return render(request ,'customer/add_adress.html', {'rental': rental})
+
+def adress_choice (request:HttpRequest ,rental_id):
+    rental=get_object_or_404(Rental,id=rental_id)
+    try:
+        adress = Adress.objects.get(user=request.user)
+    except Adress.DoesNotExist:
+        return redirect("customer:add_adress",rental_id=rental_id)
+    
+    if request.method =="POST":
+        if "use_existing_address" in request.POST:
+            adress.rental=rental
+            adress.save()
+            return redirect('shipping:create_payment',rental_id=rental.id)
+        elif "update_address" in request.POST:
+            return redirect("customer:update_adress",adress_id=adress.id)
+
+
+    return render(request ,'customer/adress_choice.html', {'rental': rental ,'adress':adress})
+
 
 #يحتاج تعديل الصفحة و الفيو 
 def my_adress(request:HttpRequest):
@@ -63,19 +84,32 @@ def my_adress(request:HttpRequest):
     return render(request ,'customer/my_adress.html',{"adress":adress})
 
 def update_adress(request:HttpRequest ,adress_id:int):
-    adress = Adress.objects.get(pk=adress_id, user=request.user)
-    if request.method=="POST":
-            new_adress=Adress(city=request.POST["city"], neighborhood=request.POST["neighborhood"],postcode=request.POST["postcode"],comments=request.POST["comments"],user=request.user)
-            new_adress.save()
-            #لا تنسي تغيري الري دايركت لصفحة الشحن بعد ما تسويها
-            return redirect('main:home')
+    try:
+        rental = Rental.objects.filter(customer=request.user).latest('id')
+
+    except ObjectDoesNotExist:
+        
+        messages.warning(request,"You don't have any rent requests yet." )
+        return redirect("dresses:my_dresses")
     
-    return render(request ,'customer/update_adress.html',{"adress":adress})
+    adress= get_object_or_404(Adress,pk=adress_id, user=request.user)
+    
+    if request.method=="POST":
+        adress.city=request.POST["city"]
+        adress.neighborhood=request.POST["neighborhood"]
+        adress.postcode=request.POST["postcode"]
+        adress.comments=request.POST["comments"]
+        adress.rental=rental
+        adress.save()
+        messages.success(request, "Address updated successfully!")
+            #لا تنسي تغيري الري دايركت لصفحة الشحن بعد ما تسويها
+        return redirect('shipping:create_payment',rental_id=rental.id)
+    
+    return render(request ,'customer/update_adress.html',{"adress":adress,'rental': rental})
 
 def delete_adress(request:HttpRequest ,adress_id:int):
     adress = Adress.objects.get(pk=adress_id, user=request.user)
     adress.delete()
     #غيري الريدايركت خليه لصفحة الادريس
     return redirect("customer:my_adress")
-
 

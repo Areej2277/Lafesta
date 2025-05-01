@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+{% block title%} Chooseuing Shipping Address{% endblock %}
+{% load static %}
+{% block content %}
+    <section class="container my-5 text-center ">
+        <h2 class="mb-4 text-center">Choose Shipping Address</h2>
+            <div class="row d-flex justify-content-center">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-4 mx-auto">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <p><strong>City:</strong> {{ adress.city }}</p>
+                            <p><strong>Neighborhood:</strong> {{ adress.neighborhood }}</p>
+                            <p><strong>Postcode:</strong> {{ adress.postcode }}</p>
+                            <p><strong>Shipping Company:</strong> {{ adress.shipping_company }}</p>
+                            <p><strong>Comments:</strong>
+                                {% if adress.comments %}
+                                    {{ adress.comments }}
+                                {% else %}
+                                    No comments were added for this address.
+                                {% endif %}
+
+                            </p>
+                        </div>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <button type="submit" name="use_existing_address" class="btn btn-dark mt-3">use this address</button>
+                            <button type="submit" name="update_address" class="btn btn-warning mt-3">update this address</button>
+                        </form>
+                    </div>
+                </div>
+    </section >
+{% endblock %}

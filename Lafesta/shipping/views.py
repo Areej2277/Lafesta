@@ -65,7 +65,7 @@ def create_shipment(request:HttpRequest ,request_id):
             shipping_company=request.POST["shipping_company"],
             pickup_information=request.POST["pickup_information"],
             expected_delivery_date=request.POST["expected_delivery_date"],
-            request=rental_request,
+            rental=rental_request,       
             adress=adress
         )
         new_Shipment.save()
@@ -103,7 +103,7 @@ def manage_shipments(request):
     user = request.user
 
     # جلب جميع الشحنات المرتبطة بفستاتين المالك
-    shipments = Shipment.objects.filter(request__dress__owner=user).order_by('-created_at')
+    shipments = Shipment.objects.filter(rental__dress__owner=user).order_by('-created_at')
 
     return render(request, 'shipping/manage_shipments.html', {'shipments': shipments})
 

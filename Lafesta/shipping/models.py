@@ -6,7 +6,9 @@ from customer.models import Adress
 # Create your models here.
 class Shipment(models.Model):
     adress=models.ForeignKey(Adress, on_delete=models.CASCADE)
-    rental= models.ForeignKey(Rental, on_delete=models.CASCADE)
+    #rental= models.ForeignKey(Rental, on_delete=models.CASCADE)
+    rental = models.ForeignKey(Rental, on_delete=models.CASCADE, related_name='shipment')  # ✅ التعديل هنا
+
     shipping_company=models.CharField(max_length=100)
     pickup_information=models.TextField()
     expected_delivery_date=models.DateTimeField()

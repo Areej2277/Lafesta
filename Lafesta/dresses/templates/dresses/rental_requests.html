@@ -47,12 +47,14 @@
                             <td>{{ rental.created_at|date:"F j, Y, H:i" }}</td>
 
                             <td>
-                                {% if rental.payment.status == 'Paid' %}
+                                {% if rental.payment.exists and rental.payment.first.status == 'Paid' %}
                                     <span class="badge bg-success">Paid</span>
                                 {% else %}
                                     <span class="badge bg-danger">Unpaid</span>
                                 {% endif %}
                             </td>
+                            
+                            
 
                             <td>
                                 {% if rental.status == 'pending' %}
@@ -60,9 +62,14 @@
                                         <a href="{% url 'dresses:rental_action' rental.id 'confirm' %}" class="btn btn-success btn-sm">Confirm</a>
                                         <a href="{% url 'dresses:rental_action' rental.id 'cancel' %}" class="btn btn-danger btn-sm">Cancel</a>
                                     </div>
-                                {% elif rental.status == 'confirmed' %}
-                                    <a href="{% url 'shipping:create_shipment' rental.id %}" class="btn btn-primary btn-sm">Create Shipment</a>
-                                {% else %}
+                                    {% elif rental.status == 'confirmed' and rental.payment.exists and rental.payment.first.status == 'Paid' %}
+                                            {% if rental.shipment.exists %}
+                                                   <a href="{% url 'shipping:manage_shipments' %}" class="btn btn-outline-info btn-sm">Track Shipment</a>
+                                            {% else %}
+                                                   <a href="{% url 'shipping:create_shipment' rental.id %}" class="btn btn-primary btn-sm">Create Shipment</a>
+                                    {% endif %}
+
+                                    {% else %}
                                     <span class="text-muted">No Actions</span>
                                 {% endif %}
                             </td>

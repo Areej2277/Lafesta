@@ -1,18 +1,27 @@
 {% extends 'main/base.html'%}
 {% block title %} Create shipment {% endblock %}
 {% load static %}
-
 {% block content %}
 <div class="container d-flex flex-column justify-content-center align-items-center py-5">
     <h2 class="mb-4">Create shipment</h2>
     <form class="w-50 d-flex flex-column gap-3" action="{% url 'shipping:create_shipment' rental.id  %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <label for="shipping_company">Shipping company</label>
-        <input class="form-control" type="text" name="shipping_company" id="shipping_company"  required>
-        <label for="pickup_information">Pickup information</label>
-        <input class="form-control" type="text" name="pickup_information" id="pickup_information"  required>
+        <label for="owner_name">Owner name</label>
+        <input class="form-control" type="text" name="owner_name" id="owner_name"  required>
+        <label for="owner_phone">Owner phone number</label>
+        <input class="form-control" type="tel" name="owner_phone" id="owner_phone"  required>
+        <label for="Pick_up_address">Pick-up address</label>
+        <textarea class="form-control" type="text" name="Pick_up_address" id="Pick_up_address" required ></textarea>
+        <label for="expected_Pick_up_date">Expected pick-up date</label>
+        <input class="form-control" type="date" name="expected_Pick_up_date" id="expected_Pick_up_date"  required>
+        <select name="shipping_company"  id="shipping_company" class="form-select" required >
+            <option value="Aramex" >Aramex</option>
+            <option value="SMSA Express" >SMSA Express</option>
+        </select>
         <label for="expected_delivery_date">Expected delivery date</label>
         <input class="form-control" type="date" name="expected_delivery_date" id="expected_delivery_date"  required>
+        <label for="comments">Comments</label>
+        <textarea class="form-control" type="text" name="comments" id="comments" ></textarea>
         <button type="submit" class="btn btn-dark">Create shipment</button>
     </form>
 </div>

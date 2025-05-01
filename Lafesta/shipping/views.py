@@ -59,12 +59,16 @@ def create_shipment(request:HttpRequest ,request_id):
 
     # ✅ جلب عنوان الكاستمر
     adress = Adress.objects.filter(user=rental_request.customer).first()
-
+    
     if request.method == "POST":
         new_Shipment = Shipment(
+            owner_name=request.POST["owner_name"],
+            owner_phone=request.POST["owner_phone"],
+            Pick_up_address=request.POST["Pick_up_address"],
+            expected_Pick_up_date=request.POST["expected_Pick_up_date"],
             shipping_company=request.POST["shipping_company"],
-            pickup_information=request.POST["pickup_information"],
             expected_delivery_date=request.POST["expected_delivery_date"],
+            comments=request.POST["comments"],
             rental=rental_request,       
             adress=adress
         )

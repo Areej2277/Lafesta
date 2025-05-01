@@ -9,5 +9,6 @@ urlpatterns=[
     path("add_adress/<int:rental_id>/",views.add_adress,name="add_adress"),
     path("my_adress/",views.my_adress,name="my_adress"),
     path("update_adress/<int:adress_id>/",views.update_adress,name="update_adress"),
+    path("adress_choice/<int:rental_id>/",views.adress_choice,name="adress_choice"),
     path("delete_adress/<int:adress_id>/",views.delete_adress,name="delete_adress"),
 ]

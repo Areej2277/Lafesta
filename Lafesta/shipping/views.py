@@ -20,6 +20,11 @@ def create_payment(request:HttpRequest,  rental_id):
         expiry_date = datetime.strptime(expiry_full, "%Y-%m-%d").date()
         new_payment=Payment(card_number=request.POST["card_number"], card_holder_name=request.POST["card_holder_name"],expiry_date=expiry_date,cvv=request.POST["cvv"],refID=random.randint(100000, 999999), status='Paid',rental=rental)
         new_payment.save()
+        # ✅ تحديث حالة الطلب إلى confirmed
+        rental.status = 'confirmed'
+        rental.save()
+
+
         messages.success(request, "Payment was created successfully!")
         # لو فيه حقل rental: rental=rental_request
         return redirect('shipping:Payment_confirmation', payment_id=new_payment.id, rental_id=rental.id)
@@ -70,11 +75,6 @@ def create_shipment(request:HttpRequest ,request_id):
 
     return render(request, 'shipping/new_shipment.html', {'rental': rental_request})
 
-def payment_confirmation(request: HttpRequest, payment_id, rental_id):
-    payment = Payment.objects.get(id=payment_id)
-    rental = Rental.objects.get(id=rental_id)
-    
-    return render(request, 'shipping/payment_confirmation.html', {'payment': payment,'rental': rental})
 
 
 

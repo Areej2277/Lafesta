@@ -16,6 +16,7 @@
                         <th>Expected Delivery</th>
                         <th>Current Status</th>
                         <th>Update Status</th>
+                        <th>Track Shipment</th>  {# ✅ Updated column header #}
                     </tr>
                 </thead>
                 <tbody>
@@ -30,6 +31,15 @@
                             </td>
                             <td>
                                 <a href="{% url 'shipping:update_shipment_status' shipment.id %}" class="btn btn-sm btn-primary">Update Status</a>
+                            </td>
+                            <td>
+                                {% if shipment.tracking_url %}
+                                    <a href="{{ shipment.tracking_url }}" class="btn btn-sm btn-outline-secondary" target="_blank">
+                                        📦 Track Shipment via Link
+                                    </a>
+                                {% else %}
+                                    <span class="text-muted">Not Available</span>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}

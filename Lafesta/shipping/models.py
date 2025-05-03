@@ -17,6 +17,11 @@ class Shipment(models.Model):
     expected_Pick_up_date=models.DateTimeField()
     expected_delivery_date=models.DateTimeField()
     created_at=models.DateTimeField(auto_now_add=True)
+
+
+    tracking_url = models.URLField(blank=True, null=True)  # ✅ الحقل الجديد
+
+
     comments=models.TextField(blank=True, null=True)
     class Statuschoices(models.TextChoices):
         status1='Shipment Created','Shipment Created'

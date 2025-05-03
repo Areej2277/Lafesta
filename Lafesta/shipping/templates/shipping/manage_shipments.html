@@ -16,15 +16,15 @@
                         <th>Expected Delivery</th>
                         <th>Current Status</th>
                         <th>Update Status</th>
-                        <th>Track Shipment</th>  {# ✅ Updated column header #}
+                        <th>Track Shipment</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for shipment in shipments %}
                         <tr>
-                            <td>{{ shipment.request.id }}</td>
+                            <td>Order #{{ shipment.rental.id }}</td>
                             <td>{{ shipment.shipping_company }}</td>
-                            <td>{{ shipment.pickup_information }}</td>
+                            <td>{{ shipment.Pick_up_address }}</td>
                             <td>{{ shipment.expected_delivery_date|date:"F j, Y" }}</td>
                             <td>
                                 <span class="badge bg-info text-dark">{{ shipment.status }}</span>

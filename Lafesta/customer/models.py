@@ -17,7 +17,7 @@ class Bookmark(models.Model):
 
 class Adress(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    rental=models.OneToOneField(Rental, on_delete=models.CASCADE)
+    rental=models.OneToOneField(Rental, on_delete=models.CASCADE , null=True, blank=True)
     class Companychoices(models.TextChoices):
         company1="Aramex","Aramex"
         company2="SMSA Express","SMSA Express"

@@ -24,7 +24,7 @@ def signup_view(request: HttpRequest):
                     phone_number=request.POST["phone_number"],
                     user_type=request.POST["user_type"],
                     city=request.POST["city"],
-                    profile_image=request.FILES.get("profile_image", "images/avatars/avatar.webp")
+                    profile_image=request.FILES.get("profile_image", Profile._meta.get_field('profile_image').get_default())
                 )
                 profile.save()
 

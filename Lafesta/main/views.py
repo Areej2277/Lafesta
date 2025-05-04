@@ -2,12 +2,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from .models import ContactMessage
-from dresses.models import Dress  # ✅ Import the model from the dresses app
+from dresses.models import Dress, Review  # ✅ Import the model from the dresses app
+
 
 # Home page view – displays the latest added dresses
 def home_view(request):
     new_dresses = Dress.objects.order_by('-created_at')[:6]  # ✅ Latest 6 dresses added
-    return render(request, 'main/home.html', {'new_dresses': new_dresses})
+    reviews = Review.objects.select_related('user').order_by('-created_at')[:6]
+    return render(request, 'main/home.html', {
+        'new_dresses': new_dresses,
+        'reviews': reviews,
+        })
 
 def about_view(request):
     return render(request, 'main/about.html')

@@ -1,9 +1,25 @@
+/* ========== Fonts Import ========== */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+
 /* ========== Base Styles ========== */
 body {
     font-family: 'Segoe UI', sans-serif;
     font-size: 18px;
     line-height: 1.6;
     transition: background-color 0.4s, color 0.4s;
+}
+
+/* ========== Lafesta Logo Name ========== */
+.lafesta-brand-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; 
+    font-weight: bold;
+    color: white;
+    transition: color 0.3s ease-in-out;
+}
+
+.lafesta-brand-text:hover {
+    color: #FFD700;
 }
 
 /* ========== Dark Mode ========== */
@@ -30,7 +46,7 @@ body {
 
 /* ========== Logo ========== */
 .navbar-brand img {
-    width: 60px;
+    width: 50px;
     height: auto; 
     transition: transform 0.3s;
 }
@@ -111,6 +127,18 @@ body {
     animation: fadeInUp 1s ease-in-out;
 }
 
+/* ========== Hero Text ========== */
+.hero-title {
+    font-weight: bold;
+    font-size: 3rem;
+    color: white;
+}
+
+.hero-subtitle {
+    font-size: 1.4rem;
+    color: #ddd;
+}
+
 /* ========== Footer ========== */
 .footer {
     font-size: 16px;
@@ -118,11 +146,29 @@ body {
     border-top: 1px solid #444;
     color: white;
     transition: background-color 0.3s ease;
+    padding: 40px 0;
+}
+
+.footer h5 {
+    color: #FFD700;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.footer .nav-link {
+    color: #aaa;
+    font-size: 14px;
+}
+
+.footer .nav-link:hover {
+    color: white;
+    text-decoration: underline;
 }
 
 .footer i {
     color: #FFD700;
     transition: color 0.3s;
+    font-size: 1.4rem;
 }
 
 .footer i:hover {
@@ -191,14 +237,12 @@ body {
     border: none;
 }
 
-/* Dress card hover effect with gold border */
 .new-dresses .card:hover {
     transform: translateY(-8px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    border: 2px solid #FFD700; /* Add gold border */
+    border: 2px solid #FFD700;
 }
 
-/* Dress image settings */
 .new-dresses img {
     width: 100%;
     height: 250px;
@@ -223,9 +267,84 @@ body {
 .dress-card:hover {
     transform: scale(1.03);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    border: 2px solid #FFD700; /* Gold border on hover */
+    border: 2px solid #FFD700;
 }
 
+/* ========== About Page Dress Images ========== */
+.about-dress-img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.about-dress-img:hover {
+    transform: scale(1.03);
+}
+
+/* ========== Custom Home Page Cards ========== */
+.card-white-box {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.card-white-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== Review Card Specific ========== */
+.review-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    font-weight: 500;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+}
+
+/* ========== Review Section Header ========== */
+.customer-review-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: #000;
+    margin-bottom: 0.5rem;
+}
+
+.customer-review-underline {
+    width: 120px;
+    height: 3px;
+    background-color: #FFD700;
+    margin: 0 auto 1.5rem auto;
+}
+
+/* ========== Small Title Styling ========== */
+.card-white-box h6,
+.card-white-box h5 {
+    font-weight: bold;
+}
+
+/* ========== Custom Divider Between Sections ========== */
+.custom-divider {
+    width: 160px;
+    height: 4px;
+    background-color: #1f1a02;
+    border: none;
+    border-radius: 5px;
+    margin: 60px auto 40px auto;
+}
+.full-width-divider {
+    border: none;
+    height: 3px;
+    background-color: #FFD700;
+    margin: 60px 0;
+    width: 100%;
+}
 /* ========== Responsive Styles ========== */
 @media (max-width: 768px) {
     .navbar-brand img {

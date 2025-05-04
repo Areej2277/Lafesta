@@ -7,7 +7,8 @@
     <p class="text-center mb-5 text-muted">We’d love to hear from you! Fill out the form below to reach us.</p>
 
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <!-- Form Section -->
+        <div class="col-lg-6 mb-4">
             <form method="POST" action="{% url 'main:contact' %}" class="shadow p-4 rounded bg-white bg-opacity-75">
                 {% csrf_token %}
                 <div class="mb-3">
@@ -33,10 +34,36 @@
                 </button>
             </form>
         </div>
+
+        <!-- Contact Info & Map -->
+        <!-- Contact Info & Map -->
+<div class="col-lg-6">
+    <div class="p-4 rounded bg-light shadow mb-4">
+        <h5 class="fw-bold mb-3">
+            <span class="material-symbols-outlined align-middle me-1 text-dark">location_on</span>
+            Our Address
+        </h5>
+        <p class="mb-2">
+            <span class="material-symbols-outlined align-middle me-1 text-dark">call</span>
+            <strong>Phone:</strong> +966 500000000
+        </p>
+        <p class="mb-2">
+            <span class="material-symbols-outlined align-middle me-1 text-dark">mail</span>
+            <strong>Email:</strong> support@lafesta.sa
+        </p>
+        <p>
+            <span class="material-symbols-outlined align-middle me-1 text-dark">place</span>
+            <strong>Location:</strong> Anas bin Malik Rd, Riyadh, Saudi Arabia
+        </p>
     </div>
 
-    <div class="text-center mt-4 text-muted">
-        <p>Or reach us directly at <strong>support@lafesta.sa</strong></p>
+    <div class="map-container shadow rounded overflow-hidden">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d462183.8759480389!2d46.6523269014061!3d25.175840908010603!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2ee39b19ff2dc9%3A0xb0dbfbdbb6d9e6ee!2z2KXYs9io2YjYstinINix2YrYp9i2!5e0!3m2!1sar!2ssa!4v1746352664650!5m2!1sar!2ssa" 
+            width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+</div>
     </div>
 </div>
 {% endblock %}

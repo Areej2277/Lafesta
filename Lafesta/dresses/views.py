@@ -9,6 +9,12 @@ from .models import Rental
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from customer.models import Bookmark  # ✅ تأكدي تستوردين Bookmark فوق!
+from django.core.paginator import Paginator
+from django.db.models import Avg
+from shipping.models import Shipment, Payment
+
+
+
 
 
 
@@ -87,16 +93,53 @@ def my_dresses(request):
     if city and city != 'all':
         dresses = dresses.filter(owner__profile__city=city)
 
+        
+    # ✅ إضافة البيجينيشن هنا
+    paginator = Paginator(dresses, 6)  # 6 فساتين لكل صفحة
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+
     return render(request, 'dresses/dresses.html', {'dresses': dresses})
 
+
+
+# def dress_detail(request, dress_id):
+#     dress = get_object_or_404(Dress, id=dress_id)
+#     reviews = dress.reviews.all().order_by('-created_at')  # عرض التقييمات من الأحدث إلى الأقدم
+
+#     is_bookmarked = Bookmark.objects.filter(user=request.user, dress=dress).exists() if request.user.is_authenticated else False
+
+
+#     if request.method == 'POST':
+#         form = ReviewForm(request.POST)
+#         if form.is_valid():
+#             review = form.save(commit=False)
+#             review.dress = dress
+#             review.user = request.user
+#             review.save()
+#            # return redirect('dress_detail', dress_id=dress.id)
+#             return redirect('dresses:dress_detail', dress_id=dress.id)
+
+#     else:
+#         form = ReviewForm()
+
+#     return render(request, 'dresses/dress_detail.html', {
+#         'dress': dress,
+#         'form': form,
+#         'reviews': reviews,
+#         'is_bookmarked': is_bookmarked,  # ✅ أضف هذا السطر
+
+#     })
 
 
 def dress_detail(request, dress_id):
     dress = get_object_or_404(Dress, id=dress_id)
     reviews = dress.reviews.all().order_by('-created_at')  # عرض التقييمات من الأحدث إلى الأقدم
+    average_rating = reviews.aggregate(avg=Avg('rating'))['avg'] or 0
+    average_rating = round(average_rating, 1)
 
     is_bookmarked = Bookmark.objects.filter(user=request.user, dress=dress).exists() if request.user.is_authenticated else False
-
 
     if request.method == 'POST':
         form = ReviewForm(request.POST)
@@ -105,9 +148,7 @@ def dress_detail(request, dress_id):
             review.dress = dress
             review.user = request.user
             review.save()
-           # return redirect('dress_detail', dress_id=dress.id)
             return redirect('dresses:dress_detail', dress_id=dress.id)
-
     else:
         form = ReviewForm()
 
@@ -115,9 +156,10 @@ def dress_detail(request, dress_id):
         'dress': dress,
         'form': form,
         'reviews': reviews,
-        'is_bookmarked': is_bookmarked,  # ✅ أضف هذا السطر
-
+        'average_rating': average_rating,
+        'is_bookmarked': is_bookmarked,
     })
+
 
 
 
@@ -179,7 +221,29 @@ def rental_action(request, rental_id, action):
 @login_required
 def my_orders(request):
     user = request.user
+
     # جلب كل الطلبات اللي سواها المستخدم الحالي
+
     orders = Rental.objects.filter(customer=user).order_by('-created_at')
     return render(request, 'dresses/orders.html', {'rentals': orders})
 
+
+# @login_required
+# def my_orders(request):
+#     user = request.user
+#     rentals = Rental.objects.filter(customer=user).order_by('-created_at')
+
+#     orders_info = []
+
+#     for rental in rentals:
+#         has_address = Shipment.objects.filter(rental=rental).exists()
+#         payment = Payment.objects.filter(rental=rental).first()
+#         has_payment = payment and payment.status == 'Paid'
+
+#         orders_info.append({
+#             'rental': rental,
+#             'has_address': has_address,
+#             'has_payment': has_payment,
+#         })
+
+#     return render(request, 'dresses/orders.html', {'orders_info': orders_info})

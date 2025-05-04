@@ -345,6 +345,7 @@ body {
     margin: 60px 0;
     width: 100%;
 }
+
 /* ========== Responsive Styles ========== */
 @media (max-width: 768px) {
     .navbar-brand img {

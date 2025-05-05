@@ -22,7 +22,7 @@
 <body>
 
 {% if request.path == '/' %}
-<video autoplay muted loop id="bgVideo" preload="auto" >
+<video autoplay muted loop id="bgVideo" playsinline>
     <source src="{% static 'videos/background2.mp4' %}" type="video/mp4">
 </video>
 {% endif %}

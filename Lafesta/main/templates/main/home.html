@@ -39,10 +39,10 @@
           <p class="card-text">{{ dress.description|truncatechars:80 }}</p>
           <div class="mt-auto d-flex justify-content-between">
             <a href="{% url 'dresses:dress_detail' dress.id %}" class="btn btn-sm btn-outline-primary">Details</a>
-            {% if request.user.is_authenticated %}
-            <a href="{% url 'dresses:rent_dress' dress.id %}" class="btn btn-sm btn-dark">Rent Now</a>
+            {% if request.user.is_authenticated and request.user.profile.user_type == 'customer' %}
+              <a href="{% url 'dresses:rent_dress' dress.id %}" class="btn btn-sm btn-dark">Rent Now</a>
             {% else %}
-              <button type="button" class="btn btn-sm btn-dark" onclick="alert('Please sign in to rent a dress.'); window.location.href='{% url 'users:signin' %}?next={% url 'dresses:rent_dress' dress.id %}';">
+              <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#signinModal{{ dress.id }}">
                 Rent Now
               </button>
             {% endif %}
@@ -50,10 +50,30 @@
         </div>
       </div>
     </div>
+
+    {% if not request.user.is_authenticated or request.user.profile.user_type != 'customer' %}
+    <!-- Modal بعد الكارت وليس داخله -->
+    <div class="modal fade" id="signinModal{{ dress.id }}" tabindex="-1" aria-labelledby="signinModalLabel{{ dress.id }}" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="signinModalLabel{{ dress.id }}">Sign In Required</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            You need to sign in to rent this dress.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <a href="{% url 'users:signin' %}?next={% url 'dresses:rent_dress' dress.id %}" class="btn btn-primary">Sign In</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
     {% endfor %}
   </div>
 </section>
-
 <div class="full-width-divider"></div>
 
 <!-- Features Section -->

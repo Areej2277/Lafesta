@@ -13,6 +13,9 @@ from django.core.paginator import Paginator
 from django.db.models import Avg
 from shipping.models import Shipment, Payment
 
+from django.utils.safestring import mark_safe
+from django.urls import reverse
+
 
 
 
@@ -163,20 +166,111 @@ def dress_detail(request, dress_id):
 
 
 
+# def rent_dress(request, dress_id):
+#     dress = get_object_or_404(Dress, id=dress_id)
+
+#     if request.method == 'POST':
+#         form = RentalForm(request.POST)
+#         if form.is_valid():
+#             rental = form.save(commit=False) 
+#             rental.dress = dress
+#             rental.customer = request.user
+#             rental.save()
+#             messages.success(request, 'Rental request submitted successfully!')  # ✅ رسالة النجاح
+#            # return redirect('dress_detail', dress_id=dress.id)
+#             #return redirect('customer:add_adress', dress_id=dress.id)
+#             #تم التعديل لتمرير الاي دي الخاه بالريكويست بدل من الاي دي الخاص بالفستان الى صفحة العنوان 
+#             return redirect('customer:adress_choice', rental_id=rental.id)
+
+#     else:
+#         form = RentalForm()
+
+#     return render(request, 'dresses/rent_dress.html', {
+#         'form': form,
+#         'dress': dress,
+#         'daily_price': dress.price_per_day,  # تأكد هذا موجود
+#     })
+
+
+#from django.utils.translation import gettext as _  # لو حابة تدعمي الترجمة مستقبلاً
+#//////////////////////////////////////////////////////////////////////////////////////
+
+# @login_required
+# def rent_dress(request, dress_id):
+#     dress = get_object_or_404(Dress, id=dress_id)
+
+#     if request.method == 'POST':
+#         form = RentalForm(request.POST)
+#         if form.is_valid():
+#             start_date = form.cleaned_data['start_date']
+#             end_date = form.cleaned_data['end_date']
+
+#             # 🔍 Check for existing conflicting rentals
+#             conflicting_rentals = Rental.objects.filter(
+#                 dress=dress,
+#                 start_date__lte=end_date,
+#                 end_date__gte=start_date
+#             )
+
+#             if conflicting_rentals.exists():
+#                 if conflicting_rentals.filter(customer=request.user).exists():
+#                     messages.warning(request, "You already have a rental request for this dress during the selected dates. Please edit your previous request instead.")
+#                 else:
+#                     messages.error(request, "This dress is already booked during the selected dates. Please choose different dates.")
+#                 return redirect('dresses:rent_dress', dress_id=dress.id)
+
+#             rental = form.save(commit=False)
+#             rental.dress = dress
+#             rental.customer = request.user
+#             rental.save()
+#             messages.success(request, 'Your rental request has been submitted successfully. ✅')
+#             return redirect('customer:adress_choice', rental_id=rental.id)
+
+#     else:
+#         form = RentalForm()
+
+#     return render(request, 'dresses/rent_dress.html', {
+#         'form': form,
+#         'dress': dress,
+#         'daily_price': dress.price_per_day,
+#     })
+
+@login_required
 def rent_dress(request, dress_id):
     dress = get_object_or_404(Dress, id=dress_id)
 
     if request.method == 'POST':
         form = RentalForm(request.POST)
         if form.is_valid():
-            rental = form.save(commit=False) 
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date']
+
+            # 🔍 Check for existing conflicting rentals
+            conflicting_rentals = Rental.objects.filter(
+                dress=dress,
+                start_date__lte=end_date,
+                end_date__gte=start_date
+            )
+
+            if conflicting_rentals.exists():
+                if conflicting_rentals.filter(customer=request.user).exists():
+                    existing_rental = conflicting_rentals.filter(customer=request.user).first()
+                    messages.warning(
+                        request,
+                        mark_safe(
+                            f'You already have a booking for this dress during the selected dates. '
+                            f'<a href="{reverse("dresses:edit_rental_customer", args=[existing_rental.id])}">Click here to edit it.</a>'
+                        )
+                    )
+                else:
+                    messages.error(request, "This dress is already booked during the selected dates. Please choose different dates.")
+                return redirect('dresses:rent_dress', dress_id=dress.id)
+
+            rental = form.save(commit=False)
             rental.dress = dress
             rental.customer = request.user
             rental.save()
-            messages.success(request, 'Rental request submitted successfully!')  # ✅ رسالة النجاح
-           # return redirect('dress_detail', dress_id=dress.id)
-            #return redirect('customer:add_adress', dress_id=dress.id)
-            #تم التعديل لتمرير الاي دي الخاه بالريكويست بدل من الاي دي الخاص بالفستان الى صفحة العنوان 
+            messages.success(request, 'Your rental request has been submitted successfully. ✅')
             return redirect('customer:adress_choice', rental_id=rental.id)
 
     else:
@@ -185,7 +279,7 @@ def rent_dress(request, dress_id):
     return render(request, 'dresses/rent_dress.html', {
         'form': form,
         'dress': dress,
-        'daily_price': dress.price_per_day,  # تأكد هذا موجود
+        'daily_price': dress.price_per_day,
     })
 
 
@@ -247,3 +341,24 @@ def my_orders(request):
 #         })
 
 #     return render(request, 'dresses/orders.html', {'orders_info': orders_info})
+
+@login_required
+def edit_rental_customer(request, rental_id):
+    rental = get_object_or_404(Rental, id=rental_id, customer=request.user)
+
+    # لا يمكن التعديل إذا الدفع تم
+    if rental.payment.exists() and rental.payment.first().status == 'Paid':
+
+        messages.error(request, "You cannot edit this rental because it has already been paid.")
+        return redirect('dresses:my_orders')
+
+    if request.method == 'POST':
+        form = RentalForm(request.POST, instance=rental)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Rental updated successfully.")
+            return redirect('dresses:my_orders')
+    else:
+        form = RentalForm(instance=rental)
+
+    return render(request, 'dresses/edit_rental_customer.html', {'form': form, 'rental': rental})

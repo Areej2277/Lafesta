@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+{% block title %} Edit Rental - {{ rental.dress.name }} {% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4 text-center">Edit Rental for "{{ rental.dress.name }}"</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                {% if rental.dress.image %}
+                    <img src="{{ rental.dress.image.url }}" class="card-img-top" alt="{{ rental.dress.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+
+                        <p><strong>Price per Day:</strong> {{ rental.dress.price_per_day }} SAR</p>
+
+                        <div class="mb-3">
+                            <label><strong>Total Price will be updated after save.</strong></label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

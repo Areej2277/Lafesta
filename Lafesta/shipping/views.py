@@ -166,7 +166,13 @@ def create_shipment(request:HttpRequest ,request_id):
             expected_Pick_up_date=request.POST["expected_Pick_up_date"],
             shipping_company=request.POST["shipping_company"],
             expected_delivery_date=request.POST["expected_delivery_date"],
+ 
+
+            tracking_url=request.POST.get("tracking_url", ""),  # ✅ السطر المضاف
+
+
             comments=request.POST["comments"],
+
             rental=rental_request,       
             adress=adress
         )

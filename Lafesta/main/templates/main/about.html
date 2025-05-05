@@ -1,27 +1,59 @@
 {% extends 'main/base.html' %}
+{% load static %}
 {% block title %}About Us - Lafesta{% endblock %}
 
 {% block content %}
+
+<!-- About Header -->
 <div class="container py-5 fade-in text-center">
-    <h2 class="mb-4">Who We Are</h2>
-    <p class="lead">Lafesta is a Saudi platform for elegant and convenient dress rentals. Our goal is to empower women to look their best at every event without breaking the bank.</p>
-    
+    <h2 class="mb-4 fw-bold">Who We Are</h2>
+    <p class="lead fw-medium">Lafesta is a Saudi platform for elegant and convenient dress rentals. Our goal is to empower women to look their best at every event without breaking the bank.</p>
+
+    <!-- Icons Section -->
     <div class="row mt-5">
         <div class="col-md-4">
             <span class="material-symbols-outlined" style="font-size:48px; color:#FFD700;">celebration</span>
-            <h5 class="mt-3">Occasions</h5>
+            <h5 class="mt-3 fw-bold">Occasions</h5>
             <p>Perfect dresses for weddings, engagements, and special evenings.</p>
         </div>
         <div class="col-md-4">
             <span class="material-symbols-outlined" style="font-size:48px; color:#FFD700;">volunteer_activism</span>
-            <h5 class="mt-3">Community</h5>
+            <h5 class="mt-3 fw-bold">Community</h5>
             <p>Supporting local designers and empowering women entrepreneurs.</p>
         </div>
         <div class="col-md-4">
             <span class="material-symbols-outlined" style="font-size:48px; color:#FFD700;">star_rate</span>
-            <h5 class="mt-3">Quality</h5>
+            <h5 class="mt-3 fw-bold">Quality</h5>
             <p>Only the best dresses, maintained to the highest standards.</p>
         </div>
     </div>
 </div>
+
+<!-- Dress Images Section -->
+<div class="container my-5">
+    <h3 class="text-center fw-bold mb-4">Some of Our Dresses</h3>
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <img src="{% static 'images/img1.jpg' %}" class="about-dress-img" alt="Dress 1">
+        </div>
+        <div class="col-md-4 mb-4">
+            <img src="{% static 'images/img2.jpg' %}" class="about-dress-img" alt="Dress 2">
+        </div>
+        <div class="col-md-4 mb-4">
+            <img src="{% static 'images/img3.jpg' %}" class="about-dress-img" alt="Dress 3">
+        </div>
+    </div>
+</div>
+
+<!-- Map Section -->
+<div class="container mb-5">
+    <h3 class="text-center fw-bold mb-4">Our Location</h3>
+    <div class="map-container">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d462183.8759480389!2d46.6523269014061!3d25.175840908010603!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2ee39b19ff2dc9%3A0xb0dbfbdbb6d9e6ee!2z2KXYs9io2YjYstinINix2YrYp9i2!5e0!3m2!1sar!2ssa!4v1746352664650!5m2!1sar!2ssa" 
+            width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+</div>
+
 {% endblock %}

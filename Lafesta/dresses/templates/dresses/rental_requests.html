@@ -64,7 +64,7 @@
                                     </div>
                                     {% elif rental.status == 'confirmed' and rental.payment.exists and rental.payment.first.status == 'Paid' %}
                                             {% if rental.shipment.exists %}
-                                                   <a href="{% url 'shipping:manage_shipments' %}" class="btn btn-outline-info btn-sm">Track Shipment</a>
+                                                   <a href="{% url 'shipping:manage_shipments' %}" class="btn btn-outline-info btn-sm"> 🚚 Manage Shipment </a>
                                             {% else %}
                                                    <a href="{% url 'shipping:create_shipment' rental.id %}" class="btn btn-primary btn-sm">Create Shipment</a>
                                     {% endif %}

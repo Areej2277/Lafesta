@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<!-- ✅ سكربت لحساب السعر تلقائيًا -->
+<!-- ✅ سكربت لحساب السعر تلقائيًا 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const startInput = document.getElementById('id_start_date');
@@ -60,5 +60,44 @@
         startInput.addEventListener('change', calculateTotal);
         endInput.addEventListener('change', calculateTotal);
     });
+</script> -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const startInput = document.getElementById('id_start_date');
+        const endInput = document.getElementById('id_end_date');
+        const totalDisplay = document.getElementById('total-price');
+        const pricePerDay = {{ daily_price|floatformat:"2" }};
+
+        // ضبط أقل تاريخ ممكن (اليوم الحالي)
+        const today = new Date().toISOString().split('T')[0];
+        startInput.setAttribute('min', today);
+        endInput.setAttribute('min', today);
+
+        function calculateTotal() {
+            const startDate = new Date(startInput.value);
+            const endDate = new Date(endInput.value);
+
+            if (!isNaN(startDate) && !isNaN(endDate)) {
+                const timeDiff = endDate - startDate;
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
+
+                if (days > 0 && days <= 3) {
+                    const total = days * pricePerDay;
+                    totalDisplay.textContent = `${total.toFixed(2)} SAR`;
+                } else if (days > 3) {
+                    totalDisplay.textContent = '⚠️ Maximum rental period is 3 days';
+                } else {
+                    totalDisplay.textContent = '0 SAR';
+                }
+            } else {
+                totalDisplay.textContent = '0 SAR';
+            }
+        }
+
+        startInput.addEventListener('change', calculateTotal);
+        endInput.addEventListener('change', calculateTotal);
+    });
 </script>
+
 {% endblock %}

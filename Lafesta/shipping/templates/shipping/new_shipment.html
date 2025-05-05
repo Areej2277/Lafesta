@@ -20,8 +20,14 @@
         </select>
         <label for="expected_delivery_date">Expected delivery date</label>
         <input class="form-control" type="date" name="expected_delivery_date" id="expected_delivery_date"  required>
+
+
+        <label for="tracking_url">Tracking URL (optional)</label> <!-- ✅ السطر الجديد -->
+        <input class="form-control" type="url" name="tracking_url" id="tracking_url">
+
         <label for="comments">Comments</label>
         <textarea class="form-control" type="text" name="comments" id="comments" ></textarea>
+
         <button type="submit" class="btn btn-dark">Create shipment</button>
     </form>
 </div>

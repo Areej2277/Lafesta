@@ -7,12 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap Icons -->
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <!-- Google Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <!-- Font Awesome Icons -->
@@ -23,8 +22,8 @@
 <body>
 
 {% if request.path == '/' %}
-<video autoplay muted loop id="bgVideo">
-    <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
+<video autoplay muted loop id="bgVideo" playsinline>
+    <source src="{% static 'videos/background2.mp4' %}" type="video/mp4">
 </video>
 {% endif %}
 
@@ -32,7 +31,8 @@
 <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center" href="{% url 'main:home' %}">
-      <img src="{% static 'images/logo.jpg' %}" alt="Logo" width="40" class="me-2"> Lafesta
+      <img src="{% static 'images/logo0.png' %}" alt="Logo" width="40" class="me-2">
+      <span class="lafesta-brand-text">Lafesta</span>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
@@ -43,24 +43,20 @@
         <li class="nav-item"><a class="nav-link" href="{% url 'main:about' %}">About</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'main:contact' %}">Contact Us</a></li>
 
+        {% if not user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'dresses:my_dresses' %}">Explore Dresses</a></li>
+        {% endif %}
+
         {% if user.is_authenticated %}
           {% if user.profile.user_type == "customer" %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'dresses:my_dresses' %}">Explore Dresses</a>
-          </li>
-          <li class="nav-item">
-          <a class="nav-link" href="{% url 'dresses:my_orders' %}">My Orders</a>
-          </li>
-          <a class="nav-link" href="{% url 'customer:favorites_list' user_id=request.user.id %}">Favoritelist</a>
+            <li class="nav-item"><a class="nav-link" href="{% url 'dresses:my_dresses' %}">Explore Dresses</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'dresses:my_orders' %}">My Orders</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'customer:favorites_list' user_id=request.user.id %}">Favoritelist</a></li>
           {% elif user.profile.user_type == "owner" %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'dresses:my_dresses' %}">My Dresses</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'dresses:rental_requests' %}">Rental Requests</a>
-        </li>
-                  {% endif %}
-            
+            <li class="nav-item"><a class="nav-link" href="{% url 'dresses:my_dresses' %}">My Dresses</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'dresses:rental_requests' %}">Rental Requests</a></li>
+          {% endif %}
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
               <img src="{{ user.profile.profile_image.url }}" class="rounded-circle" width="30" height="30" alt="Profile">
@@ -68,11 +64,10 @@
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="{% url 'users:profile' user.username %}">Profile</a></li>
               {% if not user.is_superuser %}
-              <li><a class="dropdown-item" href="{% url 'main:my_messages' %}">My Messages</a></li> 
+                <li><a class="dropdown-item" href="{% url 'main:my_messages' %}">My Messages</a></li> 
               {% endif %}
-
               {% if user.is_superuser %}
-              <li><a class="dropdown-item" href="{% url 'main:messages' %}">Messages</a></li>
+                <li><a class="dropdown-item" href="{% url 'main:messages' %}">Messages</a></li>
               {% endif %}
               <li><a class="dropdown-item" href="{% url 'users:logout' %}"><span class="material-symbols-outlined">logout</span> Logout</a></li>
             </ul>
@@ -81,6 +76,7 @@
           <li class="nav-item"><a class="nav-link" href="{% url 'users:signin' %}">Sign In</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'users:signup' %}">Sign Up</a></li>
         {% endif %}
+
         <li class="nav-item">
           <button id="theme-toggle" class="btn btn-outline-light ms-2">
             <span id="theme-icon" class="material-symbols-outlined">dark_mode</span>
@@ -118,13 +114,54 @@
 </div>
 
 <!-- Footer -->
-<footer class="footer fixed-bottom bg-dark text-white text-center py-2">
-  <div class="container d-flex justify-content-center align-items-center">
-    <span class="me-3">Follow us:</span>
-    <i class="fa-brands fa-instagram me-2"></i>
-    <i class="fa-brands fa-twitter me-2"></i>
-    <i class="fa-brands fa-facebook-f me-2"></i>
-    <a href="{% url 'main:privacy_policy' %}" class="privacy-link ms-3">Privacy Policy</a>
+<!-- Footer -->
+<footer class="footer bg-dark text-white pt-5 pb-3 mt-5">
+  <div class="container">
+    <div class="row">
+
+      <!-- About / Links -->
+      <div class="col-md-4 mb-4">
+        <h5>Lafesta</h5>
+        <ul class="list-unstyled">
+          <li><a href="{% url 'main:privacy_policy' %}" class="privacy-link">Privacy Policy</a></li>
+          <li><a href="#" class="privacy-link">Return Policy</a></li>
+          <li><a href="#" class="privacy-link">Terms & Conditions</a></li>
+          <li><a href="#" class="privacy-link">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="col-md-4 mb-4">
+        <h5>Subscribe</h5>
+        <form>
+          <div class="input-group">
+            <input type="email" class="form-control" placeholder="Your email" required>
+            <button class="btn btn-warning" type="submit">Subscribe</button>
+          </div>
+        </form>
+        <p class="mt-2 small text-muted">Get exclusive offers and updates.</p>
+      </div>
+
+      <!-- Payment & Social -->
+      <div class="col-md-4 text-center">
+        <h5>Secure Payments</h5>
+        <div class="mb-2">
+          <img src="{% static 'images/visa.png' %}" alt="Visa" width="50" class="me-2">
+          <img src="{% static 'images/Mada_Logo.svg' %}" alt="Mada" width="50" class="me-2">
+          <img src="{% static 'images/Stc_pay.svg.png' %}" alt="STC Pay" width="50" class="me-2">
+          <img src="{% static 'images/apple-pay.png' %}" alt="Apple Pay" width="50">
+        </div>
+        <div>
+          <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="border-top border-light">
+    <p class="text-center mb-0">&copy; 2025 Lafesta. All Rights Reserved.</p>
   </div>
 </footer>
 

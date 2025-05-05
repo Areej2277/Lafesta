@@ -3,134 +3,170 @@
 
 {% block content %}
 <div class="container py-5">
-    <h2 class="mb-4 text-center">{{ dress.name }}</h2>
+    <div class="row">
 
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                {% if dress.image %}
-                <img src="{{ dress.image.url }}" class="card-img-top" alt="{{ dress.name }}">
-                {% endif %}
-                <div class="card-body">
-                    <p><strong>Description:</strong> {{ dress.description }}</p>
-                    <p><strong>Category:</strong> {{ dress.get_category_display }}</p>
-                    <p><strong>Size:</strong> {{ dress.get_size_display }}</p>
-                    <p><strong>Color:</strong>
-                        <span style="display:inline-block;width:15px;height:15px;background-color:{{ dress.color }};border:1px solid #ccc;"></span>
-                        {{ dress.color }}
-                    </p>
-                    <p><strong>Price Per Day:</strong> {{ dress.price_per_day }} SAR</p>
+        <!-- 🖼️ Right: Image & Video -->
+        <div class="col-md-6 order-md-2 mb-4">
+            {% if dress.image %}
+            <img src="{{ dress.image.url }}" class="img-fluid rounded shadow-sm mx-auto d-block"
+                 alt="{{ dress.name }}"
+                 style="max-height: 550px; width: 100%; object-fit: contain; background: #fff;">
+            {% endif %}
+            {% if dress.video %}
+            <div class="mt-3">
+                <video width="100%" controls>
+                    <source src="{{ dress.video.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            {% endif %}
+        </div>
 
-                    <!-- ✅ حالة الفستان -->
-                    <p><strong>Status:</strong>
-                        <span class="badge
-                            {% if dress.status == 'available' %} bg-success
-                            {% elif dress.status == 'rented' %} bg-warning text-dark
-                            {% else %} bg-secondary
-                            {% endif %}">
-                            {{ dress.get_status_display }}
-                        </span>
-                    </p>
-
-                    {% if dress.video %}
-                    <p><strong>Video:</strong></p>
-                    <video width="100%" controls>
-                        <source src="{{ dress.video.url }}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    {% endif %}
-
-                    <!-- ❤️ زر المفضلة -->
-                    <div class="mb-3">
-                        <form action="{% url 'customer:add_bookmark' dress.id %}" method="POST" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="border-0 bg-transparent" style="font-size: 1.8rem; color: #dc3545;" title="Add to Favorites">
-                                {% if is_bookmarked %}
-                                    <i class="bi bi-heart-fill"></i> {# ❤️ الفستان مضاف بالمفضلة #}
+        <!-- ℹ️ Left: Details -->
+        <div class="col-md-6 order-md-1">
+            <div class="d-flex align-items-center justify-content-between">
+                <h2 class="mb-0">{{ dress.name }}</h2>
+                <div class="d-flex align-items-center gap-2">
+                    <!-- ⭐ Average Rating beside name -->
+                    {% with avg=average_rating|floatformat:1 %}
+                        <span class="text-warning d-flex align-items-center gap-1">
+                            <span class="fw-bold">{{ avg }}</span>
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= avg %}
+                                    <i class="bi bi-star-fill"></i>
                                 {% else %}
-                                    <i class="bi bi-heart"></i> {# 🤍 الفستان مو مضاف #}
+                                    <i class="bi bi-star"></i>
                                 {% endif %}
-                            </button>
-                        </form>
-                        
-                        
-                        
-                        <div id="favorite-message" class="mt-2" style="display: none;"></div>
-                    </div>
-
-                    <!-- ✅ فورم التقييم -->
-                    <hr>
-                    <div class="mt-4">
-                        <h5 class="mb-3">Leave a Review:</h5>
-                        {% if request.user.is_authenticated %}
-                            <form method="POST">
-                                {% csrf_token %}
-                                {{ form.rating }}
-                                <div id="star-rating">
-                                    {% for i in "12345" %}
-                                        <i class="bi bi-star" style="font-size: 1.5rem; color: #ccc; cursor: pointer;" onclick="setRating({{ forloop.counter }})" id="star-{{ forloop.counter }}"></i>
-                                    {% endfor %}
-                                </div>
-                                <div class="mt-3">
-                                    {{ form.comment }}
-                                    <button type="submit" class="btn btn-success mt-2">Submit Review</button>
-                                </div>
-                            </form>
-                        {% else %}
-                            <p class="text-muted">You must <a href="{% url 'users:signup' %}">sign up</a> to leave a review.</p>
-                        {% endif %}
-                    </div>
-
-                    <!-- 💬 عرض التقييمات -->
-                    <hr>
-                    <div class="mt-4">
-                        <h5 class="mb-3">Reviews:</h5>
-                        {% if reviews %}
-                            {% for review in reviews %}
-                                <div class="mb-3 border rounded p-3 shadow-sm">
-                                    <p class="mb-1"><strong>{{ review.user.username }}</strong> -
-                                        <span>
-                                            {% for i in "12345" %}
-                                                {% if forloop.counter <= review.rating %}
-                                                    <i class="bi bi-star-fill" style="color:#f5c518;"></i>
-                                                {% else %}
-                                                    <i class="bi bi-star"></i>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </span>
-                                    </p>
-                                    <p class="mb-0 text-muted">{{ review.comment }}</p>
-                                    <small class="text-secondary">{{ review.created_at|date:"F j, Y" }}</small>
-                                </div>
                             {% endfor %}
-                        {% else %}
-                            <p class="text-muted">No reviews yet.</p>
-                        {% endif %}
-                    </div>
+                        </span>
+                    {% endwith %}
 
-                    <!-- ✅ أزرار التعديل أو الاستئجار -->
-                    {% if request.user.is_authenticated %}
-                        {% if request.user == dress.owner %}
-                            <div class="mt-4 d-flex gap-2">
-                                <a href="{% url 'dresses:edit_dress' dress.id %}" class="btn btn-primary">Edit</a>
-                                <form action="{% url 'dresses:delete_dress' dress.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this dress?');">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
-                            </div>
-                        {% elif request.user.profile.user_type == 'customer' and dress.status == 'available' %}
-                            <div class="mt-4">
-                                <a href="{% url 'dresses:rent_dress' dress.id %}" class="btn btn-outline-success">Rent this Dress</a>
-                            </div>
-                        {% endif %}
-                    {% endif %}
+                    <!-- ❤️ Favorite -->
+                    <form action="{% url 'customer:add_bookmark' dress.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="border-0 bg-transparent" style="font-size: 1.5rem; color: #dc3545;">
+                            {% if is_bookmarked %}
+                                <i class="bi bi-heart-fill"></i>
+                            {% else %}
+                                <i class="bi bi-heart"></i>
+                            {% endif %}
+                        </button>
+                    </form>
+
+                    <!-- 📤 Share -->
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-light border dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-share-fill"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" target="_blank" href="https://wa.me/?text={{ request.build_absolute_uri }}">شارك عبر واتساب</a></li>
+                            <li><button class="dropdown-item" onclick="copyLink()">نسخ الرابط</button></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+
+            <!-- 🌟 Rental Button 
+            {% if dress.status == 'available' %}
+                {% if request.user.is_authenticated and request.user.profile.user_type == 'customer' %}
+                    <a href="{% url 'dresses:rent_dress' dress.id %}" class="btn btn-outline-success mt-3 mb-3 w-100">Rent this Dress</a>
+                {% else %}
+                    <a href="{% url 'users:signin' %}?next={% url 'dresses:rent_dress' dress.id %}" class="btn btn-outline-success mt-3 mb-3 w-100">Rent this Dress</a>
+                {% endif %}
+            {% endif %} -->
+
+            <!-- 🌟 Rental Button -->
+{% if dress.status == 'available' %}
+{% if request.user.is_authenticated and request.user.profile.user_type == 'customer' %}
+    <a href="{% url 'dresses:rent_dress' dress.id %}" class="btn btn-outline-success mt-3 mb-3 w-100">Rent this Dress</a>
+{% else %}
+    <button type="button" class="btn btn-outline-success mt-3 mb-3 w-100" data-bs-toggle="modal" data-bs-target="#signinModal">
+        Rent this Dress
+    </button>
+{% endif %}
+{% endif %}
+
+
+            <!-- 📄 Info -->
+            <p><strong>Description:</strong> {{ dress.description }}</p>
+            <p><strong>Category:</strong> {{ dress.get_category_display }}</p>
+            <p><strong>Size:</strong> {{ dress.get_size_display }}</p>
+            <p><strong>Color:</strong>
+                <span style="display:inline-block;width:15px;height:15px;background-color:{{ dress.color }};border:1px solid #ccc;"></span>
+                {{ dress.color }}
+            </p>
+            <p><strong>Price Per Day:</strong> {{ dress.price_per_day }} SAR</p>
+            <p><strong>Status:</strong>
+                <span class="badge
+                    {% if dress.status == 'available' %} bg-success
+                    {% elif dress.status == 'rented' %} bg-warning text-dark
+                    {% else %} bg-secondary
+                    {% endif %}">
+                    {{ dress.get_status_display }}
+                </span>
+            </p>
+
+            <!-- 🔧 Owner Controls -->
+            {% if request.user == dress.owner %}
+            <div class="mt-4 d-flex gap-2">
+                <a href="{% url 'dresses:edit_dress' dress.id %}" class="btn btn-primary">Edit</a>
+                <form action="{% url 'dresses:delete_dress' dress.id %}" method="POST" onsubmit="return confirm('Are you sure?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- ⭐ Reviews -->
+    <div class="row mt-5">
+        <div class="col-md-8 mx-auto">
+            <hr>
+            <h5 class="mb-3">Leave a Review:</h5>
+            {% if request.user.is_authenticated %}
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.rating }}
+                    <div id="star-rating" class="d-flex gap-1 mb-2">
+                        {% for i in "12345" %}
+                            <i class="bi bi-star" style="font-size: 1.8rem; color: #ccc; cursor: pointer;" onclick="setRating({{ forloop.counter }})" id="star-{{ forloop.counter }}"></i>
+                        {% endfor %}
+                    </div>
+                    {{ form.comment }}
+                    <button type="submit" class="btn btn-success mt-2">Submit Review</button>
+                </form>
+            {% else %}
+                <p class="text-muted">You must <a href="{% url 'users:signup' %}">sign up</a> to leave a review.</p>
+            {% endif %}
+
+            <hr class="mt-4">
+            <h5 class="mb-3">Reviews:</h5>
+            {% if reviews %}
+                {% for review in reviews %}
+                    <div class="mb-3 border rounded p-3 shadow-sm">
+                        <p class="mb-1"><strong>{{ review.user.username }}</strong> -
+                            <span class="d-inline-flex gap-1">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= review.rating %}
+                                        <i class="bi bi-star-fill" style="color:#f5c518;"></i>
+                                    {% else %}
+                                        <i class="bi bi-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </span>
+                        </p>
+                        <p class="mb-0 text-muted">{{ review.comment }}</p>
+                        <small class="text-secondary">{{ review.created_at|date:"F j, Y" }}</small>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">No reviews yet.</p>
+            {% endif %}
         </div>
     </div>
 </div>
 
-<!-- ⭐ سكربت تفاعل النجوم والمفضلة -->
 <script>
     function setRating(star) {
         document.getElementById('id_rating').value = star;
@@ -148,26 +184,30 @@
         }
     }
 
-    function toggleFavorite(button) {
-        const icon = button.querySelector('i');
-        const message = document.getElementById('favorite-message');
-
-        if (icon.classList.contains('bi-heart')) {
-            icon.classList.remove('bi-heart');
-            icon.classList.add('bi-heart-fill');
-            message.textContent = 'Added to favorites ❤️';
-            message.style.color = 'green';
-        } else {
-            icon.classList.remove('bi-heart-fill');
-            icon.classList.add('bi-heart');
-            message.textContent = 'Removed from favorites 💔';
-            message.style.color = 'red';
-        }
-
-        message.style.display = 'block';
-        setTimeout(() => {
-            message.style.display = 'none';
-        }, 2000);
+    function copyLink() {
+        navigator.clipboard.writeText(window.location.href).then(function () {
+            alert("تم نسخ الرابط ⬆️");
+        });
     }
 </script>
+
+<!-- Sign In Modal -->
+<div class="modal fade" id="signinModal" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="signinModalLabel">Sign In Required</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          You need to sign in to rent this dress.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <a href="{% url 'users:signin' %}?next={% url 'dresses:rent_dress' dress.id %}" class="btn btn-primary">Sign In</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 {% endblock %}

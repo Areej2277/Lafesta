@@ -31,6 +31,10 @@ class Adress(models.Model):
     neighborhood=models.CharField(max_length=100)
     postcode=models.IntegerField()
     comments=models.TextField()
+    #خطوط الطول و العرض
+    latitude = models.FloatField(null=True, blank=True)  
+    longitude = models.FloatField(null=True, blank=True)
+
     def __str__(self) -> str:
         return f"{self.user.username} - {self.city}, {self.neighborhood}, {self.postcode}"
 

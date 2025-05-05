@@ -1,0 +1,31 @@
+{% extends 'main/base.html'%}
+{% block title %} Order Summary {% endblock %}
+{% load static %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center mb-5">Order Summary</h2>
+        <div clas="row justify-content-center">
+            <div class="col md-6 d-flex flex-column justify-content-center">
+                <h4 class="mb-3"><strong>Dress Name:</strong>"{{rental.dress.name}}"</h4>
+                <p><strong>Lease Period:</strong>From "{{rental.start_date}}" To "{{rental.end_date}}"</p>
+                <p><strong>Lease Price</strong>"{{rental.total_price}}"SAR</p>  
+                {% if rental.adress %}
+                    <p><strong>Shipping Company:</strong>"{{rental.adress.shipping_company}}"</p>
+                    <p><strong>City:</strong>"{{rental.adress.city}}"</p>
+                    <p><strong>Neighborhood:</strong>"{{rental.adress.neighborhood}}"</p>
+                {% else %}
+                <p class="text-danger">No address yet entered</p>
+                {% endif %}   
+                <form method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-dark">Go to Payment</button>
+                </form>       
+            </div>
+        </div>
+        <div class="col-md-5 text-center">
+            <img src="{{rental.dress.img.url}}" alt="Photo of the rented dress" class="img-fluid rounded shadow" style="max-height: 300px;">
+        </div>
+    </div>
+    </div>
+{% endblock %}

@@ -40,20 +40,18 @@ class Shipment(models.Model):
         return self.shipping_company
 
 class  Payment (models.Model):
+    moyasar_id = models.CharField(max_length=255, unique=True)
    # request= models.ForeignKey(Rental, on_delete=models.CASCADE)
     rental = models.ForeignKey(Rental, on_delete=models.CASCADE, related_name='payment')#هذا التعديل يسمح لنا نستدعي payment من اي مكان 
-
+    amount=models.DecimalField(max_digits=8, decimal_places=2)
+    moyasar_id=models.CharField(max_length=100,blank=True, null=True)
+    invoice_url=models.URLField(max_length=300,blank=True, null=True)
     created_at=models.DateTimeField(auto_now_add=True)
     refID=models.IntegerField()
-    #بعد ما يتم الربط بالمنصات لا تنسي تحذفي معلومات البطاقة حقت اليوزر
-    card_number=models.IntegerField()
-    card_holder_name=models.CharField(max_length=100)
-    expiry_date=models.DateField()
-    cvv=models.IntegerField()
     class StatusChoices(models.TextChoices):
-        Status1='Paid','Paid'
-        Status2='Processing','Processing'
-        Status3='Refunded','Refunded'
-    status=models.CharField(choices=StatusChoices.choices ,max_length=100)
-    def __int__(self)->int:
-        return self.refID
+        Status1='paid','Paid'
+        Status2='pending','pending'
+        Status3='failed','failed'
+    status=models.CharField(choices=StatusChoices.choices ,max_length=100 ,default='pending')
+    def __str__(self)->str:
+        return f"Payment for {self.rental} -{ self.status}"

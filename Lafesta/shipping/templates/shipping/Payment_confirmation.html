@@ -3,26 +3,61 @@
 {% load static %}
 {% block content %}
 <section class="container my-5">
-    <h1 class="mb-4 text-center">Payment confirmed</h1>
-
+    <!--عشان العنوان يتغير حسب الحالة -->
+    <h1 class="mb-4 text-center">
+        {% if status == 'success'%}
+        Payment confirmed
+        {% else %}
+        Payment failed
+        {% endif %}
+    </h1>
     <div class="d-flex justify-content-center">
         <div class="card shadow-sm p-4" style="max-width: 400px; border: none;">
             <div class="text-center">
-                <!-- أيقونة نجاح -->
+                <!--عشان الايقونة تتغير حسب الحالة -->
+                {% if status == 'success'%}
                 <div style="width: 80px; height: 80px; background-color: #28a745; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-check-lg" viewBox="0 0 16 16">
                         <path d="M13.485 1.929a.75.75 0 0 1 1.06 1.06l-8 8a.75.75 0 0 1-1.06 0l-4-4a.75.75 0 1 1 1.06-1.06L6 9.44l7.485-7.511z"/>
                     </svg>
                 </div>
+                {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="red" class="bi bi-x-lg" viewBox="0 0 16 16">
+                    <path d="M2.146 2.146a.5.5 0 0 1 .708 0L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854a.5.5 0 0 1 0-.708z"/>
+                </svg>
+                {% endif %}
 
-                <!-- النصوص -->
-                <h5 class="mt-4">Payment executed successfully 🎉</h5>
-                <p class="text-muted">Thank you for using Lafeste</p>
+                <!-- عشان الراسئل تتغير حسب الحالة-->
+                <h5 class="mt-4">
+                    {% if status == 'success'%}
+                    Payment executed successfully 🎉
+                    {% else %}
+                    Payment was not successfull
+                    {% endif %}
+                </h5>
+                <p class="text-muted">
+                    {% if status == 'success'%}
+                    Thank you for using Lafeste
+                    {% else %}
+                    Please try again
+                    {% endif %}
+                </p>
                 <p class="text-muted">Order Number <strong>{{ rental.id }}</strong></p>
-                <p>You can track your order from the button below</p>
+                <p> 
+                    {% if status == 'success'%}
+                    You can track your order from the button below
+                    {% else %}
+                    You can try to repay from the button below 
+                    {% endif %}
 
-                <!-- زر تتبع الطلب -->
-                <a href="{% url 'dresses:my_orders' %}" class="btn btn-dark mt-3">Track your order</a>
+                </p>
+                <a href="{% url 'dresses:my_orders' %}" class="btn btn-dark mt-3">
+                    {% if status == 'success'%}
+                    Track your order
+                    {% else %}
+                    Back to My Orders
+                    {% endif %}
+                </a>
             </div>
         </div>
     </div>

@@ -5,6 +5,8 @@ from .models import Bookmark,Adress
 from dresses.models import Dress,Rental
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
+
 #from .forms import AdressForm
 #from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -49,13 +51,13 @@ def add_adress(request:HttpRequest ,rental_id):
         new_adress=Adress(city=request.POST["city"], neighborhood=request.POST["neighborhood"],postcode=request.POST["postcode"],shipping_company=request.POST["shipping_company"],comments=request.POST["comments"],user=request.user,rental=rental)
         new_adress.save()
         messages.success(request, "Address added successfully!")
-        return redirect('shipping:create_payment',rental_id=rental.id)
+        return redirect('shipping:order_verification',rental_id=rental.id,)
     else:
         messages.warning(request, "Please fill in all required fields.")
         #else:
             #print("not falid form")
         
-    return render(request ,'customer/add_adress.html', {'rental': rental})
+    return render(request ,'customer/add_adress.html',{'rental': rental})
 
 def adress_choice (request:HttpRequest ,rental_id):
     rental=get_object_or_404(Rental,id=rental_id)
@@ -68,7 +70,7 @@ def adress_choice (request:HttpRequest ,rental_id):
         if "use_existing_address" in request.POST:
             adress.rental=rental
             adress.save()
-            return redirect('shipping:create_payment',rental_id=rental.id)
+            return redirect('shipping:order_verification',rental_id=rental.id,adress_id=adress.id)
         elif "update_address" in request.POST:
             return redirect("customer:update_adress",adress_id=adress.id)
 
@@ -103,7 +105,7 @@ def update_adress(request:HttpRequest ,adress_id:int):
         adress.save()
         messages.success(request, "Address updated successfully!")
             #لا تنسي تغيري الري دايركت لصفحة الشحن بعد ما تسويها
-        return redirect('shipping:create_payment',rental_id=rental.id)
+        return redirect('shipping:order_verification',rental_id=rental.id,adress_id=adress.id)
     
     return render(request ,'customer/update_adress.html',{"adress":adress,'rental': rental})
 

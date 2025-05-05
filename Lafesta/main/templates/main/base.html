@@ -22,7 +22,7 @@
 <body>
 
 {% if request.path == '/' %}
-<video autoplay muted loop id="bgVideo">
+<video autoplay muted loop id="bgVideo" preload="auto" >
     <source src="{% static 'videos/background2.mp4' %}" type="video/mp4">
 </video>
 {% endif %}
@@ -114,15 +114,54 @@
 </div>
 
 <!-- Footer -->
-<footer class="footer bg-dark text-white text-center py-4 mt-5">
-  <div class="container d-flex flex-column align-items-center">
-    <div class="mb-2">
-      <a href="#" class="text-white me-3"><i class="fa-brands fa-instagram"></i></a>
-      <a href="#" class="text-white me-3"><i class="fa-brands fa-twitter"></i></a>
-      <a href="#" class="text-white me-3"><i class="fa-brands fa-facebook-f"></i></a>
+<!-- Footer -->
+<footer class="footer bg-dark text-white pt-5 pb-3 mt-5">
+  <div class="container">
+    <div class="row">
+
+      <!-- About / Links -->
+      <div class="col-md-4 mb-4">
+        <h5>Lafesta</h5>
+        <ul class="list-unstyled">
+          <li><a href="{% url 'main:privacy_policy' %}" class="privacy-link">Privacy Policy</a></li>
+          <li><a href="#" class="privacy-link">Return Policy</a></li>
+          <li><a href="#" class="privacy-link">Terms & Conditions</a></li>
+          <li><a href="#" class="privacy-link">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="col-md-4 mb-4">
+        <h5>Subscribe</h5>
+        <form>
+          <div class="input-group">
+            <input type="email" class="form-control" placeholder="Your email" required>
+            <button class="btn btn-warning" type="submit">Subscribe</button>
+          </div>
+        </form>
+        <p class="mt-2 small text-muted">Get exclusive offers and updates.</p>
+      </div>
+
+      <!-- Payment & Social -->
+      <div class="col-md-4 text-center">
+        <h5>Secure Payments</h5>
+        <div class="mb-2">
+          <img src="{% static 'images/visa.png' %}" alt="Visa" width="50" class="me-2">
+          <img src="{% static 'images/Mada_Logo.svg' %}" alt="Mada" width="50" class="me-2">
+          <img src="{% static 'images/Stc_pay.svg.png' %}" alt="STC Pay" width="50" class="me-2">
+          <img src="{% static 'images/apple-pay.png' %}" alt="Apple Pay" width="50">
+        </div>
+        <div>
+          <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+        </div>
+      </div>
+
     </div>
-    <a href="{% url 'main:privacy_policy' %}" class="privacy-link">Privacy Policy</a>
-    <small class="d-block mt-2">&copy; 2025 Lafesta. All Rights Reserved.</small>
+
+    <hr class="border-top border-light">
+    <p class="text-center mb-0">&copy; 2025 Lafesta. All Rights Reserved.</p>
   </div>
 </footer>
 

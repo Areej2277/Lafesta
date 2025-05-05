@@ -35,7 +35,7 @@ body {
 
 /* ========== Background Video ========== */
 #bgVideo {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
@@ -127,10 +127,15 @@ body {
     animation: fadeInUp 1s ease-in-out;
 }
 
+
+.hero-home {
+    height: 100vh;
+}
+
 /* ========== Hero Text ========== */
 .hero-title {
     font-weight: bold;
-    font-size: 3rem;
+    font-size: 6rem;
     color: white;
 }
 
@@ -233,35 +238,39 @@ body {
 
 /* ========== Dresses in Home Section ========== */
 .new-dresses .card {
+    height: 500px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: none;
+    border: 2px solid transparent;
+    overflow: hidden;
 }
 
-.new-dresses .card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    border: 2px solid #FFD700;
-}
-
-.new-dresses img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
+.new-dresses .card-img-top {
+    height: 300px;
+    object-fit: contain; 
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
+    background: #fff;
+    padding: 10px;
+}
+
+.new-dresses .card-body {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .dress-img {
-    height: 350px;
+    height: 300px;
     width: 100%;
     object-fit: contain;
     background: #fff;
     padding: 10px;
     transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
-
-
-
 
 .dress-card {
     transition: transform 0.4s ease, box-shadow 0.4s ease;
@@ -270,9 +279,8 @@ body {
 .dress-card:hover {
     transform: scale(1.03);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    border: 2px solid #FFD700;
+    border-color: #FFD700;
 }
-
 /* ========== About Page Dress Images ========== */
 .about-dress-img {
     width: 100%;
@@ -344,9 +352,21 @@ body {
 .full-width-divider {
     border: none;
     height: 3px;
-    background-color: #FFD700;
+    background-color: rgb(240, 240, 240);
     margin: 60px 0;
     width: 100%;
+}
+
+.btn-outline-light {
+    border: 2px solid #fff;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-light:hover {
+    background-color: #FFD700;
+    border-color: #FFD700;
+    color: #000;
 }
 
 /* ========== Responsive Styles ========== */

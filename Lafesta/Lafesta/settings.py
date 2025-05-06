@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-y3*tsaml+-tbo-gc%m=b#a=prhc_%&_xk^6&vy=mxf0b36x707
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
+CSRF_TRUSTED_ORIGINS = ["https://lafesta-production.up.railway.app", "http://127.0.0.1"]
 
 # Application definition
 

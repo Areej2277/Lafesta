@@ -42,38 +42,29 @@
                                 </span>
                             </td>
                             <td>{{ rental.created_at|date:"F j, Y, H:i" }}</td>
-                          <!---  <td>
-                                {% if not rental.shipment.all %}
-                                    <a href="{% url 'customer:adress_choice' rental.id %}" class="btn btn-sm btn-secondary">Add Address</a>
-                                {% elif not rental.payment.all or rental.payment.first.status != 'Paid' %}
-                                    <a href="{% url 'customer:add_payment' rental.id %}" class="btn btn-sm btn-warning">Complete Payment</a>
+                            
+                            <td>
+                                {% if rental.payment.all and rental.payment.first.status == 'Paid' %}
+                                    {% if rental.shipment.exists %}
+                                        <a href="{% url 'shipping:track_shipment' rental.id %}" class="btn btn-sm btn-outline-primary">Track Shipment</a>
+                                    {% else %}
+                                        <button class="btn btn-sm btn-secondary" disabled>In Progress</button>
+                                    {% endif %}
                                 {% else %}
-                                    <a href="{% url 'shipping:track_shipment' rental.id %}" class="btn btn-sm btn-outline-primary">Track</a>
+                                    <a href="{% url 'shipping:create_payment' rental.id %}" class="btn btn-sm btn-warning">Complete Payment</a>
                                 {% endif %}
-                            </td> -->
-                       <!---    <td>
-    {% if rental.shipment.all|length == 0 %}
-        <a href="{% url 'customer:adress_choice' rental.id %}" class="btn btn-sm btn-secondary mb-1">Add Address</a><br>
-    {% endif %}
-
-    {% if rental.payment.all|length == 0 or rental.payment.first.status != 'Paid' %}
-        <a href="{% url 'shipping:create_payment' rental.id %}" class="btn btn-sm btn-warning mb-1">Complete Payment</a><br>
-    {% endif %}
-
-    {% if rental.payment.all and rental.payment.first.status == 'Paid' %}
-        <a href="{% url 'shipping:track_shipment' rental.id %}" class="btn btn-sm btn-outline-primary">Track Shipment</a>
-    {% endif %}
-</td> -->
+                            </td>
+                            
 
                             
 
-                          <td>
+                        <!---- <td>
                                 {% if rental.payment.all and rental.payment.first.status == 'Paid' %}
                                     <a href="{% url 'shipping:track_shipment' rental.id %}" class="btn btn-sm btn-outline-primary">Track</a>
                                 {% else %}
                                     <a href="{% url 'shipping:create_payment' rental.id %}" class="btn btn-sm btn-warning">Complete Payment</a>
                                 {% endif %}
-                            </td> 
+                            </td> -->
                             
                             
                             

@@ -225,6 +225,8 @@ def Payment_confirmation(request:HttpRequest,rental_id):
             payment.save()
         
         if status == "paid":
+            payment.status = "Paid"
+            payment.save()
             rental.status = 'confirmed'
             rental.save()
             return render(request, 'shipping/Payment_confirmation.html',{'rental':rental,'payment':payment,'status': 'success','message':'Payment Successfully Completed'})

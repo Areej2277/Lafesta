@@ -5,8 +5,8 @@
 {% block content %}
     <div class="container mt-5">
         <h2 class="text-center mb-5">Order Summary</h2>
-        <div clas="row justify-content-center">
-            <div class="col md-6 d-flex flex-column justify-content-center">
+        <div class="row justify-content-center gx-1">
+            <div class="col text-center justify-content-center">
                 <h4 class="mb-3"><strong>Dress Name:</strong>"{{rental.dress.name}}"</h4>
                 <p><strong>Lease Period:</strong>From "{{rental.start_date}}" To "{{rental.end_date}}"</p>
                 <p><strong>Lease Price</strong>"{{rental.total_price}}"SAR</p>  
@@ -20,11 +20,11 @@
                 <form method="POST">
                     {% csrf_token %}
                     <button class="btn btn-dark">Go to Payment</button>
-                </form>       
+                </form>    
             </div>
-        </div>
-        <div class="col-md-5 text-center">
-            <img src="{{rental.dress.img.url}}" alt="Photo of the rented dress" class="img-fluid rounded shadow" style="max-height: 300px;">
+            <div class="col text-center">
+                <img src="{{rental.dress.image.url}}" alt="Photo of the rented dress" class="img-fluid rounded shadow" style="max-height: 300px;">
+            </div>   
         </div>
     </div>
     </div>

@@ -58,8 +58,9 @@
           {% endif %}
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            <a class="nav-link dropdown-toggle d-flex flex-column align-items-center" href="#" role="button" data-bs-toggle="dropdown">
               <img src="{{ user.profile.profile_image.url }}" class="rounded-circle" width="30" height="30" alt="Profile">
+              <small class="text-white">{{ user.username }}</small>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="{% url 'users:profile' user.username %}">Profile</a></li>

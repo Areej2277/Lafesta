@@ -369,6 +369,7 @@ body {
     color: #000;
 }
 
+
 /* ========== Responsive Styles ========== */
 @media (max-width: 768px) {
     .navbar-brand img {
@@ -389,5 +390,34 @@ body {
 
     .new-dresses img {
         height: 200px;
+    }
+
+    .hero-home {
+        height: auto;
+        padding: 100px 20px 60px 20px;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    #bgVideo {
+        object-fit: cover;
+        height: 100vh;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+
+    .btn-outline-light {
+        font-size: 14px;
+        padding: 8px 16px;
     }
 }

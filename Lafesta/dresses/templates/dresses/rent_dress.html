@@ -62,14 +62,16 @@
     });
 </script> -->
 
+...
+<!-- ✅ سكربت لحساب السعر ومنع الإرسال إذا تجاوز 3 أيام -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const startInput = document.getElementById('id_start_date');
         const endInput = document.getElementById('id_end_date');
         const totalDisplay = document.getElementById('total-price');
+        const form = document.querySelector('form');
         const pricePerDay = {{ daily_price|floatformat:"2" }};
 
-        // ضبط أقل تاريخ ممكن (اليوم الحالي)
         const today = new Date().toISOString().split('T')[0];
         startInput.setAttribute('min', today);
         endInput.setAttribute('min', today);
@@ -77,10 +79,11 @@
         function calculateTotal() {
             const startDate = new Date(startInput.value);
             const endDate = new Date(endInput.value);
+            let days = 0;
 
             if (!isNaN(startDate) && !isNaN(endDate)) {
                 const timeDiff = endDate - startDate;
-                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
+                days = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
 
                 if (days > 0 && days <= 3) {
                     const total = days * pricePerDay;
@@ -93,11 +96,25 @@
             } else {
                 totalDisplay.textContent = '0 SAR';
             }
+
+            return days;
         }
 
         startInput.addEventListener('change', calculateTotal);
         endInput.addEventListener('change', calculateTotal);
+
+        form.addEventListener('submit', function (e) {
+            const startDate = new Date(startInput.value);
+            const endDate = new Date(endInput.value);
+            const days = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+
+            if (days > 3 || days <= 0) {
+                e.preventDefault();
+                alert('⚠️ Rental period must be between 1 and 3 days only.');
+            }
+        });
     });
 </script>
+...
 
 {% endblock %}

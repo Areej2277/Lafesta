@@ -136,9 +136,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-load_dotenv()
-import os
-from dotenv import load_dotenv
+
 
 load_dotenv()  
 MOYASAR_PUBLIC_KEY=os .getenv("MOYASAR_PUBLIC_KEY")

@@ -1,28 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-    <meta charset="UTF-8">
-    <title>Credit Card Payment</title>
+{% extends 'main/base.html'%}
+{% block title %} Credit Card Payment {% endblock %}
+{% block extra_head %} 
     <link rel="stylesheet" href="https://cdn.moyasar.com/mpf/1.15.0/moyasar.css" />
     <script src="https://cdn.moyasar.com/mpf/1.15.0/moyasar.js"></script>
-    </head>
-    <body>
-        <div class="mysr-form"></div>
-        <script>
-            var amount = {{ amount|floatformat:2|escapejs }};
-            if (!isNaN(amount)) { 
-                window.Moyasar.init({
-                    element: '.mysr-form',
-                    amount: amount,
-                    currency: 'SAR',
-                    description: 'Request to rent a dress',
-                    publishable_api_key: 'pk_test_3tAAccbtJ6ZgQ5SU8Mqb8ETvVCtxnu6ojkN3t5f4',
-                    callback_url: 'http://127.0.0.1:8000/shipping/Payment_confirmation/{{rental.id}}/',
-                    methods: ['creditcard'],
-                });
-            } else {
-                    console.error("Invalid amount value:", amount);
-                 }
-        </script>
-    </body>
-</html>
+{% endblock %}
+{% load static %}
+
+{% block content %}
+
+<div class="mysr-form"></div>
+<script>
+    var amount = {{ amount|floatformat:2|escapejs }};
+    if (!isNaN(amount)) { 
+        window.Moyasar.init({
+            element: '.mysr-form',
+            amount: amount,
+            currency: 'SAR',
+            description: 'Request to rent a dress',
+            publishable_api_key: 'pk_test_3tAAccbtJ6ZgQ5SU8Mqb8ETvVCtxnu6ojkN3t5f4',
+            callback_url: 'http://127.0.0.1:8000/shipping/Payment_confirmation/{{rental.id}}/',
+            methods: ['creditcard'],
+        });
+    } else {
+            console.error("Invalid amount value:", amount);
+         }
+</script>
+{% endblock %}

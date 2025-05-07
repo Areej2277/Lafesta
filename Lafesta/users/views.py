@@ -5,11 +5,19 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError, transaction
 from django.contrib import messages
 from .models import Profile
+import re
+
 
 # User Registration View
 def signup_view(request: HttpRequest):
     if request.method == "POST":
         try:
+            #Verify Saudi mobile number
+            phone = request.POST["phone_number"]
+            if not re.fullmatch(r"05\d{8}", phone):
+                messages.error(request, "Phone number must start with 05 and be exactly 10 digits.")
+                return render(request, "users/signup.html")
+
             with transaction.atomic():
                 new_user = User.objects.create_user(
                     username=request.POST["username"],
@@ -18,10 +26,9 @@ def signup_view(request: HttpRequest):
                     first_name=request.POST["first_name"],
                     last_name=request.POST["last_name"]
                 )
-             # Create a corresponding profile for the user
                 profile = Profile(
                     user=new_user,
-                    phone_number=request.POST["phone_number"],
+                    phone_number=phone,
                     user_type=request.POST["user_type"],
                     city=request.POST["city"],
                     profile_image=request.FILES.get("profile_image", Profile._meta.get_field('profile_image').get_default())
@@ -38,7 +45,6 @@ def signup_view(request: HttpRequest):
             print(e)
 
     return render(request, "users/signup.html")
-
 # User Login View
 def signin_view(request: HttpRequest):
     if request.method == "POST":

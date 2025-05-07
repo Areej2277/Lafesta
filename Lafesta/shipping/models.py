@@ -43,8 +43,8 @@ class  Payment (models.Model):
     moyasar_id = models.CharField(max_length=255, unique=True)
    # request= models.ForeignKey(Rental, on_delete=models.CASCADE)
     rental = models.ForeignKey(Rental, on_delete=models.CASCADE, related_name='payment')#هذا التعديل يسمح لنا نستدعي payment من اي مكان 
-    amount=models.DecimalField(max_digits=8, decimal_places=2)
-    moyasar_id=models.CharField(max_length=100,blank=True, null=True)
+    amount=models.DecimalField(max_digits=9, decimal_places=2)
+    moyasar_id=models.CharField(max_length=512,blank=True, null=True)
     invoice_url=models.URLField(max_length=300,blank=True, null=True)
     created_at=models.DateTimeField(auto_now_add=True)
     refID=models.IntegerField()

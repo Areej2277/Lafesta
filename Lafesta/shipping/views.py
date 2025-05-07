@@ -221,7 +221,7 @@ def Payment_confirmation(request:HttpRequest,rental_id):
             else:
                 ref_id = random.randint(100000, 999999)
             amount = result.get('amount', 0)
-            payment = Payment(moyasar_id=moyasar_id, status=status,refID=ref_id,amount=amount,rental=rental) 
+            payment = Payment(moyasar_id=moyasar_id, status=status,refID=0,amount=amount,rental=rental) 
             payment.save()
         
         if status == "paid":

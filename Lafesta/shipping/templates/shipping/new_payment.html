@@ -18,7 +18,7 @@
             currency: 'SAR',
             description: 'Request to rent a dress',
             publishable_api_key: 'pk_test_3tAAccbtJ6ZgQ5SU8Mqb8ETvVCtxnu6ojkN3t5f4',
-            callback_url: 'http://127.0.0.1:8000/shipping/Payment_confirmation/{{rental.id}}/',
+            callback_url: '{{callback_url}}/shipping/Payment_confirmation/{{rental.id}}/',
             methods: ['creditcard'],
         });
     } else {

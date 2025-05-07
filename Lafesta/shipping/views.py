@@ -93,7 +93,7 @@ def create_payment(request:HttpRequest,  rental_id):
     #else:
         #messages.error(request, "Payment creation failed")
         
-    return render(request ,'shipping/new_payment.html' ,{'rental': rental, 'address': address ,'amount': int(rental.total_price * 100)})
+    return render(request ,'shipping/new_payment.html' ,{'rental': rental, 'address': address ,'amount': int(rental.total_price * 100), "callback_url":os.environ.get("CALLBACK_URL")})
 
 
 # def create_shipment(request:HttpRequest ,request_id):
